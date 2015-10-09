@@ -3,10 +3,7 @@ using System.Collections;
 
 public class squareDetection : MonoBehaviour
 {
-	
-	
-	
-	
+
 	
 	/*
  - We're importing a texture (image), its public so that we can input any picure.
@@ -29,8 +26,6 @@ public class squareDetection : MonoBehaviour
 	
 	void Start ()
 	{
-
-
 		
 		/*
 		 - We set the empty texture to the inputTex (this might create a copy by reference problem)
@@ -176,20 +171,15 @@ public class squareDetection : MonoBehaviour
 
 			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
-
-
-			cube.transform.position = new Vector3 ((cubecorners [k].xmax + cubecorners[k].xmin)/2, 0, (cubecorners [k].ymax + cubecorners[k].ymin)/2);
-			cube.transform.localScale = new Vector3 (cubecorners[k].xmax - cubecorners[k].xmin, 1, cubecorners[k].ymax - cubecorners[k].ymin);
-
-
-			
-			Color newColor = new Color();
-			newColor = new Color(tagCheck, tagCheck, tagCheck, 1.0f);
+			cube.transform.position = new Vector3 ((cubecorners [k].xmax + cubecorners [k].xmin) / 2, 0, (cubecorners [k].ymax + cubecorners [k].ymin) / 2);
+			cube.transform.localScale = new Vector3 (cubecorners [k].xmax - cubecorners [k].xmin, 1, cubecorners [k].ymax - cubecorners [k].ymin);
+			cube.AddComponent<Rigidbody> ().useGravity = false;
+			cube.GetComponent<Rigidbody> ().isKinematic = true;
+				
+			Color newColor = new Color ();
+			newColor = new Color (tagCheck, tagCheck, tagCheck, 1.0f);
 			cube.GetComponent<Renderer> ().material.color = newColor;  //Will give cubes color after merging
-		}
-
-
-		
+		}		
 	}
 
 	
@@ -197,21 +187,13 @@ public class squareDetection : MonoBehaviour
 	void Update ()
 	{
 		
-		
 		/*
  - This is a test, the test will print the following if and only if the image has 7 objects
 */
 		if (tagCheck == 7) {
 			print ("tagchch" + tagCheck);
 		}
-		
-		
-		
 	}
-
-
-
-
 }
 /*
  *A CubeCorner Class, only used to store the four corners of a rectangle, to be come a cube 
