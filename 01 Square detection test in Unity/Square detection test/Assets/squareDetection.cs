@@ -169,6 +169,8 @@ public class squareDetection : MonoBehaviour
 			print ("Cube " + k + " ymin value is: " + cubecorners [k].ymin);
 			print ("Cube " + k + " ymax value is: " + cubecorners [k].ymax);
 
+			//starting to create cubes
+
 			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
 			cube.transform.position = new Vector3 ((cubecorners [k].xmax + cubecorners [k].xmin) / 2, 0, (cubecorners [k].ymax + cubecorners [k].ymin) / 2);
