@@ -16,8 +16,9 @@ public class squareDetection : MonoBehaviour
  - We create a CubeCorner array to hold any amount of rectangle objects to be detected
 */
 	public Texture2D inputTex;
-	Texture2D texture;
+	private Texture2D texture;
 	Color[] pix;
+	Color[,] image;
 	int[,] positionValue;
 	int[,] tags;
 	int xmin, xmax, ymin, ymax;
@@ -32,8 +33,47 @@ public class squareDetection : MonoBehaviour
 		 - We set the renderer of the gameobject this script is attached to, to the texture (input texture)
 		 - We set the pix array of Colors to the texture of the texture (input texture)
 		*/
-		texture = inputTex;
-		GetComponent<Renderer> ().material.mainTexture = texture;
+
+		texture = new Texture2D (inputTex.width, inputTex.height);
+
+		Color[,] image = PreProcessing.Instance.GetPixels2D (inputTex);
+
+
+
+		image = PreProcessing.Instance.Rgb2greyScale (image);
+
+
+		image = PreProcessing.Instance.Rank (image, 3, 1);
+
+		
+		image = PreProcessing.Instance.Threshold (image, 0.5f);
+
+		//image = PreProcessing.Instance.Erode (image);
+
+
+
+		//image = PreProcessing.Instance.Rank (image, 3, 3);
+
+		//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+	//image = PreProcessing.Instance.Erode (image);
+
+
+
+
+
+
+		PreProcessing.Instance.SetPixels2D (image, texture);
+
+
+
+		this.GetComponent<Renderer> ().material.mainTexture = texture;
 		pix = texture.GetPixels ();
 		
 		/*
@@ -179,8 +219,11 @@ public class squareDetection : MonoBehaviour
 			cube.GetComponent<Rigidbody> ().isKinematic = true;
 				
 			Color newColor = new Color ();
-			newColor = new Color (tagCheck, tagCheck, tagCheck, 1.0f);
+			newColor = new Color (Random.value, Random.value, Random.value, 1.0f);
 			cube.GetComponent<Renderer> ().material.color = newColor;  //Will give cubes color after merging
+			cube.tag = "Ground";
+
+
 		}		
 	}
 
@@ -188,13 +231,14 @@ public class squareDetection : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+
 		
 		/*
  - This is a test, the test will print the following if and only if the image has 7 objects
 */
-		if (tagCheck == 7) {
+		/*if (tagCheck == 7) {
 			print ("tagchch" + tagCheck);
-		}
+		}*/
 	}
 }
 /*
