@@ -42,13 +42,30 @@ public class squareDetection : MonoBehaviour
 
 		image = PreProcessing.Instance.Rgb2greyScale (image);
 
+		image = PreProcessing.Instance.simpleBrightness (image, -30);
+
+		image = PreProcessing.Instance.simpleContrast (image, 1.3f);
+
 
 		image = PreProcessing.Instance.Rank (image, 3, 1);
 
 		
-		image = PreProcessing.Instance.Threshold (image, 0.5f);
+		image = PreProcessing.Instance.Threshold (image, 0.8f);
 
-		//image = PreProcessing.Instance.Erode (image);
+
+
+		//PreProcessing.Instance.printSample (image, 300,50,10);
+
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+//	image = PreProcessing.Instance.Erode (image);
+
 
 
 

@@ -65,10 +65,14 @@ public class PreProcessing : Singleton<PreProcessing> {
 		
 		int kw = k / 2;
 		int kh = k / 2;
+
+		//Double for loop through the pixels of the input image
 		
 		for (int w = kw; w < i.GetLength(1) - kw; w++) {
 			for (int h = kh; h < i.GetLength(0) - kh; h++) {
-				
+
+				// Integer to be interated
+
 				int count = 0;
 				
 				float [] neighborhood = new float[k * k];
@@ -119,8 +123,7 @@ public class PreProcessing : Singleton<PreProcessing> {
 		return i;
 	}
 
-	public Color[,] Rgb2greyScale (Color[,] i)
-	{
+	public Color[,] Rgb2greyScale (Color[,] i){
 		for (int w = 0; w < i.GetLength(1); w++) {
 			for (int h = 0; h < i.GetLength(0); h++) {
 				float grey = (i [w, h].r + i [w, h].g + i [w, h].b) / 3;
@@ -132,6 +135,46 @@ public class PreProcessing : Singleton<PreProcessing> {
 		return i;
 	}
 
+	public Color [,] simpleBrightness(Color [,] i, int b){
+		float c = b / 255f;
+		for(int w = 0; w < i.GetLength(1); w++){
+			for(int h = 0; h < i.GetLength(0); h++){
+				
+				i[w,h].r += c;
+				i[w,h].g += c;
+				i[w,h].b += c;
+				
+			}
+		}
+		return i;
+	}
+	public Color [,] simpleContrast(Color [,] i, float b){
+		for(int w = 0; w < i.GetLength(1); w++){
+			for(int h = 0; h < i.GetLength(0); h++){
+				
+				i[w,h].r *= b;
+				i[w,h].g *= b;
+				i[w,h].b *= b;
+				
+			}
+		}
+		return i;
+	}
+
+	public void printSample (Color [,] i, int x, int y, int huh){
+
+
+		for (int w = x; w < x+huh; w++) {
+			for (int h = y; h < y+huh; h++) {
+
+				print (i[w,h]);
+
+			}
+		}
+
+
+	}
+
 	public Color[,] Erode (Color[,] i) {
 
 		Color[,] tmp = i;
@@ -140,6 +183,7 @@ public class PreProcessing : Singleton<PreProcessing> {
 			for (int h = 1; h < i.GetLength(0) - 1; h++) {
 				
 				int count = 0;
+				int sum = 0;
 				
 				int [] neighborhood = new int[9];
 				
@@ -151,23 +195,25 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 					}
 				}
+			
+				//neighborhood = BubbleSort ( neighborhood);
 
-				neighborhood = BubbleSort ( neighborhood);
+				for(int huh = 0; huh < neighborhood.Length; huh++){
 
-				//print (neighborhood[8]);
+					sum += neighborhood[huh];
 
-				/*for(int huh = 0; huh < neighborhood.Length; huh++)
-				print (neighborhood[huh]);
+				}
 
-				break;*/
-				if (neighborhood[8] >= 1) {
-					i[w,h].r = 0;
-					i[w,h].g = 0;
-					i[w,h].b = 0;
+
+			
+				if (sum/5 >= 1) {
+					i[w,h].r = 1f;
+					i[w,h].g = 1f;
+					i[w,h].b = 1f;
 				}else {
-					i[w,h].r = 1;
-					i[w,h].g = 1;
-					i[w,h].b = 1;
+					i[w,h].r = 0f;
+					i[w,h].g = 0f;
+					i[w,h].b = 0f;
 				}
 
 
