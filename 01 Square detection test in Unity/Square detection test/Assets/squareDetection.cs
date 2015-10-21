@@ -56,32 +56,9 @@ public class squareDetection : MonoBehaviour
 
 		//PreProcessing.Instance.printSample (image, 300,50,10);
 
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-//	image = PreProcessing.Instance.Erode (image);
-
-
-
-
-		//image = PreProcessing.Instance.Rank (image, 3, 3);
-
-		//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-	//image = PreProcessing.Instance.Erode (image);
-
-
+		//image = PreProcessing.Instance.Dilate (image);
+		//image = PreProcessing.Instance.Dilate (image);
+		//image = PreProcessing.Instance.Dilate (image);
 
 
 

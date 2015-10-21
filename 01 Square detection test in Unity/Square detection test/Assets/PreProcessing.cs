@@ -48,8 +48,8 @@ public class PreProcessing : Singleton<PreProcessing> {
 	
 	public Color[,] Threshold (Color[,] i, float t)
 	{
-		for (int w = 0; w < i.GetLength(1); w++) {
-			for (int h = 0; h < i.GetLength(0); h++) {
+		for (int w = 0; w < i.GetLength(0); w++) {
+			for (int h = 0; h < i.GetLength(1); h++) {
 				i [w, h].r = i [w, h].r < t ? 0f : 1f;
 				i [w, h].g = i [w, h].g < t ? 0f : 1f;
 				i [w, h].b = i [w, h].b < t ? 0f : 1f;
@@ -68,8 +68,8 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 		//Double for loop through the pixels of the input image
 		
-		for (int w = kw; w < i.GetLength(1) - kw; w++) {
-			for (int h = kh; h < i.GetLength(0) - kh; h++) {
+		for (int w = kw; w < i.GetLength(0) - kw; w++) {
+			for (int h = kh; h < i.GetLength(1) - kh; h++) {
 
 				// Integer to be interated
 
@@ -124,8 +124,8 @@ public class PreProcessing : Singleton<PreProcessing> {
 	}
 
 	public Color[,] Rgb2greyScale (Color[,] i){
-		for (int w = 0; w < i.GetLength(1); w++) {
-			for (int h = 0; h < i.GetLength(0); h++) {
+		for (int w = 0; w < i.GetLength(0); w++) {
+			for (int h = 0; h < i.GetLength(1); h++) {
 				float grey = (i [w, h].r + i [w, h].g + i [w, h].b) / 3;
 				i [w, h].r = grey;
 				i [w, h].g = grey;
@@ -137,8 +137,8 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 	public Color [,] simpleBrightness(Color [,] i, int b){
 		float c = b / 255f;
-		for(int w = 0; w < i.GetLength(1); w++){
-			for(int h = 0; h < i.GetLength(0); h++){
+		for(int w = 0; w < i.GetLength(0); w++){
+			for(int h = 0; h < i.GetLength(1); h++){
 				
 				i[w,h].r += c;
 				i[w,h].g += c;
@@ -149,8 +149,8 @@ public class PreProcessing : Singleton<PreProcessing> {
 		return i;
 	}
 	public Color [,] simpleContrast(Color [,] i, float b){
-		for(int w = 0; w < i.GetLength(1); w++){
-			for(int h = 0; h < i.GetLength(0); h++){
+		for(int w = 0; w < i.GetLength(0); w++){
+			for(int h = 0; h < i.GetLength(1); h++){
 				
 				i[w,h].r *= b;
 				i[w,h].g *= b;
@@ -179,41 +179,38 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 		Color[,] tmp = i;
 
-		for (int w = 1; w < i.GetLength(1) - 1; w++) {
-			for (int h = 1; h < i.GetLength(0) - 1; h++) {
+		Color[,] result = new Color[i.GetLength(0), i.GetLength(1)];
+
+
+		for (int w = 3; w < i.GetLength(0) - 3; w++) {
+			for (int h = 3; h < i.GetLength(1) - 3; h++) {
 				
 				int count = 0;
-				int sum = 0;
+				float sum = 0;
 				
-				int [] neighborhood = new int[9];
+				int [] neighborhood = new int[49];
 				
-				for (int j = -1; j <= 1; j++) {
-					for (int l = -1; l <= 1; l++) {
-						
-						neighborhood [count] = (int) (tmp [w + j, h + l].r);
+				for (int j = -3; j <= 3; j++) {
+					for (int l = -3; l <= 3; l++) {
+
+						sum += (tmp [w + j, h + l].r);
+
 						count ++;
 
 					}
 				}
 			
-				//neighborhood = BubbleSort ( neighborhood);
-
-				for(int huh = 0; huh < neighborhood.Length; huh++){
-
-					sum += neighborhood[huh];
-
-				}
 
 
 			
-				if (sum/5 >= 1) {
-					i[w,h].r = 1f;
-					i[w,h].g = 1f;
-					i[w,h].b = 1f;
+				if (sum <= 0f) {
+					result[w,h].r = 0f;
+					result[w,h].g = 0f;
+					result[w,h].b = 0f;
 				}else {
-					i[w,h].r = 0f;
-					i[w,h].g = 0f;
-					i[w,h].b = 0f;
+					result[w,h].r = 1f;
+					result[w,h].g = 1f;
+					result[w,h].b = 1f;
 				}
 
 
@@ -222,7 +219,54 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 
 
-		return i;
+		return result;
+	}
+
+	public Color[,] Dilate (Color[,] i) {
+		
+		Color[,] tmp = i;
+		
+		Color[,] result = new Color[i.GetLength(0), i.GetLength(1)];
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++) {
+			for (int h = 3; h < i.GetLength(1) - 3; h++) {
+				
+				int count = 0;
+				float sum = 0;
+				
+				int [] neighborhood = new int[49];
+				
+				for (int j = -3; j <= 3; j++) {
+					for (int l = -3; l <= 3; l++) {
+						
+						sum += (tmp [w + j, h + l].r);
+						
+						count ++;
+						
+					}
+				}
+				
+				
+				
+				
+				if (sum < 49f) {
+					result[w,h].r = 0f;
+					result[w,h].g = 0f;
+					result[w,h].b = 0f;
+				}else {
+					result[w,h].r = 1f;
+					result[w,h].g = 1f;
+					result[w,h].b = 1f;
+				}
+				
+				
+			}
+		}
+		
+		
+		
+		return result;
 	}
 
 	public Color[,] GetPixels2D (Texture2D i)
@@ -231,9 +275,9 @@ public class PreProcessing : Singleton<PreProcessing> {
 		Color[,] texture2D = new Color[i.width, i.height];
 		Color[] texture1D = i.GetPixels ();
 		
-		for (int w = 0; w < i.width; w++) {
-			for (int h = 0; h < i.height; h++) {
-				texture2D [w, h] = texture1D [w * i.width + h];
+		for (int h = 0; h < i.height; h++) {
+			for (int w = 0; w < i.width; w++) {
+				texture2D [w, h] = texture1D [h * i.width + w];
 			}
 		}
 		return texture2D;
@@ -242,10 +286,13 @@ public class PreProcessing : Singleton<PreProcessing> {
 	public void SetPixels2D (Color[,] i, Texture2D t)
 	{
 		Color[] texture1D = new Color[i.Length];
+
+		int width = i.GetLength (0);
+		int height = i.GetLength (1);
 		
-		for (int w = 0; w < i.GetLength(1); w++) {
-			for (int h = 0; h < i.GetLength(0); h++) {
-				texture1D [w * i.GetLength (1) + h] = i [w, h]; 
+		for (int h = 0; h < height; h++) {
+			for (int w = 0; w < width; w++) {
+				texture1D [h * width + w] = i [w, h]; 
 			}
 		}
 		
