@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class squareDetection : MonoBehaviour
 {
 
@@ -197,28 +198,37 @@ public class squareDetection : MonoBehaviour
 		 *This is a test 
 		 *to check the numbers of all the cubes
 		 */
-		for (int k = 1; k < cubecorners.Length; k++) {
+		/*for (int k = 1; k < cubecorners.Length; k++) {
 			print ("Cube " + k + " xmin value is: " + cubecorners [k].xmin);
 			print ("Cube " + k + " xmax value is: " + cubecorners [k].xmax);
 			print ("Cube " + k + " ymin value is: " + cubecorners [k].ymin);
 			print ("Cube " + k + " ymax value is: " + cubecorners [k].ymax);
 
 			//starting to create cubes
+		}*/
 
+
+		for(int h = 1; h < texture.height; h++){
+			for(int w = 1; w < texture.width; w++){
+
+			if(image[w,h].r != 1f){
 			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
-			cube.transform.position = new Vector3 ((cubecorners [k].xmax + cubecorners [k].xmin) / 2, 0, (cubecorners [k].ymax + cubecorners [k].ymin) / 2);
-			cube.transform.localScale = new Vector3 (cubecorners [k].xmax - cubecorners [k].xmin, 1, cubecorners [k].ymax - cubecorners [k].ymin);
-			cube.AddComponent<Rigidbody> ().useGravity = false;
-			cube.GetComponent<Rigidbody> ().isKinematic = true;
-				
-			Color newColor = new Color ();
-			newColor = new Color (Random.value, Random.value, Random.value, 1.0f);
-			cube.GetComponent<Renderer> ().material.color = newColor;  //Will give cubes color after merging
-			cube.tag = "Ground";
+					cube.transform.position = new Vector3 (w, 0, h);
+					cube.transform.localScale = new Vector3 (1, 1, 1);
+					cube.AddComponent<Rigidbody> ().useGravity = false;
+					cube.GetComponent<Rigidbody> ().isKinematic = true;
+					//cube.AddComponent<combineMesh>();
 
 
-		}		
+				}
+
+			
+
+			}
+		}
+
+			
 	}
 
 	
