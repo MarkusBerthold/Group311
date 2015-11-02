@@ -7,7 +7,7 @@ public class squareDetection : MonoBehaviour
 
 	
 	/*
- - We're importing a texture (image), its public so that we can input any picure.
+ - We're importing a texture (image), its public so that we can input any picture.
  - We create a new texture whihch is empty.
  - We create an array of Colors, which holds the RGB values for each pixel
  - We create a 2D array of integers that will hold the greyscale from Color
@@ -222,15 +222,17 @@ public class squareDetection : MonoBehaviour
 
 
 				}
-
-			
-
 			}
 		}
-
 			
-	}
 
+		GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		key.gameObject.tag = "Key";
+		key.transform.position = new Vector3 (335, 1, 200);
+		key.transform.localScale = new Vector3 (1, 1, 1);
+		key.AddComponent<Rigidbody> ().useGravity = true;
+	}
+	
 	
 	// Update is called once per frame
 	void Update ()

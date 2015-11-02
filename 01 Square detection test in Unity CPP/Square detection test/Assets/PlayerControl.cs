@@ -8,13 +8,14 @@ public class PlayerControl : MonoBehaviour {
 	public float horizontalSpeed;
 	public float verticalSpeed;
 	private bool jumpable = true;
-	
+	public Vector3 startPos;
+
 	// Use this for initialization
 	void Start () {
 
 		Cursor.visible = false;
 		this.tag = "Player";
-
+		startPos = transform.position;
 	}
 
 	// Update is called once per frame
@@ -43,15 +44,21 @@ public class PlayerControl : MonoBehaviour {
 			jumpable = true;
 		}
 
-
-
-		
-		
+		if (transform.position.y <= -50) {
+			GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+			transform.position = startPos;
+		}
 		// float h = horizontalSpeed * Input.GetAxis("Mouse X");
 		// float v = verticalSpeed * Input.GetAxis("Mouse Y");
 		//transform.Rotate (v, h, 0);
 
 	}
 
+	void OnCollisionEnter(Collision c) {
+		if (c.gameObject.tag == "Key") {
+			Destroy(c.gameObject);
+			print ("Key obtained");
+		}
+	}
 
 }
