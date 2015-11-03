@@ -57,7 +57,7 @@ public class PlayerControl : MonoBehaviour {
 	void OnCollisionEnter(Collision c) {
 		if (c.gameObject.tag == "Key") {
 			Destroy(c.gameObject);
-			print ("Key obtained");
+			print ("Key is obtained");
 		}
 	}
 
