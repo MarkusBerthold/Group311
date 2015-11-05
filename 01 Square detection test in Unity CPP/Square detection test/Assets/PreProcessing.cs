@@ -299,4 +299,59 @@ public class PreProcessing : Singleton<PreProcessing> {
 		t.SetPixels (texture1D);
 		t.Apply ();
 	}
+
+	public Color[,] BlobExtraction(Color[,] i)
+	{
+		int label = 0;
+		
+		for (int w = 0; w < i.GetLength(0); w++)
+		{
+			for (int h = 0; h < i.GetLength(1); h++)
+			{
+				if (i[w, h].r == 1f)
+				{
+					label++;
+					Grassfire(i,w,h,label*10); //change number in case there is a lot of blobs
+				}
+			}   
+		}
+		return i;
+	}
+	public void Grassfire(Color[,] i, int x, int y, int label)
+	{
+		int width = i.GetLength(0);
+		int height = i.GetLength(1);
+		
+		i[x, y] = new Color(label/255f+0.2f,0,0);
+		
+		if (x + 1 < width && i[x + 1, y].r == 1f)
+		{
+			Grassfire(i, x+1, y, label);
+		}
+		if (x -1 > 0 && i[x - 1, y].r == 1f)
+		{
+			Grassfire(i, x - 1, y, label);
+		}
+		if (y + 1 < height && i[x, y + 1].r == 1f)
+		{
+			Grassfire(i, x, y + 1, label);
+		}
+		if (y - 1 > 0 && i[x, y - 1].r == 1f)
+		{
+			Grassfire(i, x, y - 1, label);
+		}
+	}
+	public Color[,] Invert(Color[,] i)
+	{
+		for (int w = 0; w < i.GetLength(0); w++)
+		{
+			for (int h = 0; h < i.GetLength(1); h++)
+			{
+				i[w, h].r = 1 - i[w, h].r;
+				i[w, h].g = 1 - i[w, h].g;
+				i[w, h].b = 1 - i[w, h].b;
+			}
+		}
+		return i;
+	}
 }

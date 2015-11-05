@@ -24,7 +24,9 @@ public class squareDetection : MonoBehaviour
 	int[,] tags;
 	int xmin, xmax, ymin, ymax;
 	int tagCheck = 0;
-	CubeCorner[] cubecorners;
+//	CubeCorner[] cubecorners;
+
+	int label;
 	
 	void Start ()
 	{
@@ -53,6 +55,12 @@ public class squareDetection : MonoBehaviour
 		
 		image = PreProcessing.Instance.Threshold (image, 0.8f);
 
+		image = PreProcessing.Instance.Invert (image);
+
+		image = PreProcessing.Instance.BlobExtraction(image);
+
+
+
 
 
 		//PreProcessing.Instance.printSample (image, 300,50,10);
@@ -77,7 +85,7 @@ public class squareDetection : MonoBehaviour
 		*/
 		
 		positionValue = new int[texture.width, texture.height];
-		tags = new int[texture.width + 1, texture.height + 1];
+		//tags = new int[texture.width + 1, texture.height + 1];
 		
 		
 		/*
@@ -88,41 +96,30 @@ public class squareDetection : MonoBehaviour
 		
 		for (int i = 1; i < texture.width; i++) {
 			for (int j = 1; j < texture.height; j++) {
-				positionValue [i, j] = (int)(pix [i + (pix.Length / texture.height * j)].grayscale * 255);
-				tags [i, j] = 0;
+				//positionValue [i, j] = (int)(pix [i + (pix.Length / texture.height * j)].grayscale * 255);
+				//tags [i, j] = 0;
 				
 				/*
 		- If a pixel is not white (some thresholding has to be done before this)
 		*/
-				if (positionValue [i, j] < 255) {
+				//if (image [i, j].r < 1) {
 					/*
 		- We loop through a 3*3 kernel, which is applied to the pixel which was not white
 		*/
-					for (int ky=-1; ky <= 1; ky++) {
-						for (int kx=-1; kx <= 1; kx++) {
-							/*
-		- If any of the 9 pixels from the kernel has a tag
-		*/
-							if (tags [i + ky, j + kx] != 0) {
-								/*
-		- We then tag our current non-white pixel with the same tag
-		*/
-								tags [i, j] = tags [i + ky, j + kx];
-							}
-						}
-					}
+					//label++;
+					//PreProcessing.Instance.Grassfire(image, i,j, label);
 					
 					
 					/*
 		- If none of the neighbours has a tag, we create a new one by incrementing tagCheck
 		- And we then tag our non-white pixel with the new tag
 		*/
-					if (tags [i, j] == 0) {
+					/*if (tags [i, j] == 0) {
 
 						tags [i, j] = tagCheck;
 						tagCheck++;
-					}
-				}
+					}*/
+
 			}
 		}
 		
@@ -131,7 +128,7 @@ public class squareDetection : MonoBehaviour
 		- We set the values of all corners to their theoretical maximum value, either 0 or the size of the input image
 		*/
 		
-		cubecorners = new CubeCorner[tagCheck];
+		/*cubecorners = new CubeCorner[tagCheck];
 
 		for (int k = 0; k < tagCheck; k++) {
 			cubecorners[k] = new CubeCorner();
@@ -145,17 +142,18 @@ public class squareDetection : MonoBehaviour
 			cubecorners [k].ymax = 0;
 
 		}
+		*/
 		
 		/*
 		- Loop through all the pixels
 		- Loop through the cube-objects
 		*/
 		
-		for (int i = 1; i < texture.width; i++) {
+		/*for (int i = 1; i < texture.width; i++) {
 			for (int j = 1; j < texture.height; j++) {
 				for (int k = 1; k < cubecorners.Length; k++) {
 					
-					/*
+
 		- I ask - If there is something tagged as k (0 -> amount of objects), 
 		- then set the corresponding cubecorner (k) values:
 		- if the i or j is lower or higher than the min or max of the object
@@ -163,6 +161,7 @@ public class squareDetection : MonoBehaviour
 		- This will create values for all four corner of a a rectangle of any detected object
 		- Ready to be created in to a cube later on
 		*/
+		/*
 					if (tags [i, j] == k && i < cubecorners [k].xmin) {
 						cubecorners [k].xmin = i;
 					}
@@ -177,7 +176,7 @@ public class squareDetection : MonoBehaviour
 					}
 				}
 			}
-		}
+		}*/
 
 		/*for (int i = 1; i < texture.width; i++) {
 			for (int j = 1; j < texture.height; j++) {
@@ -211,7 +210,7 @@ public class squareDetection : MonoBehaviour
 		for(int h = 1; h < texture.height; h++){
 			for(int w = 1; w < texture.width; w++){
 
-			if(image[w,h].r != 1f){
+			if(image[w,h].r != 0f){
 			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
 					cube.transform.position = new Vector3 (w, 0, h);
@@ -235,6 +234,7 @@ public class squareDetection : MonoBehaviour
 	
 	
 	// Update is called once per frame
+
 	void Update ()
 	{
 
@@ -251,6 +251,8 @@ public class squareDetection : MonoBehaviour
  *A CubeCorner Class, only used to store the four corners of a rectangle, to be come a cube 
  */
 
+
+/*
 public class CubeCorner{
 	public int xmin, xmax, ymin, ymax;
 	
@@ -280,4 +282,4 @@ public class CubeCorner{
 	}
 
 }
-
+*/
