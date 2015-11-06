@@ -9,13 +9,15 @@ public class PlayerControl : MonoBehaviour {
 	public float verticalSpeed;
 	private bool jumpable = true;
 	public Vector3 startPos;
+    public Quaternion startRot;
 
 	// Use this for initialization
 	void Start () {
 
 		Cursor.visible = false;
 		this.tag = "Player";
-		startPos = transform.position;
+		startPos = transform.position; // sets the initial position of the character - based on how the cube is placed
+        startRot = transform.rotation; // sets the initial rotation of the character - based on how the cube is placed
 	}
 
 	// Update is called once per frame
@@ -45,8 +47,9 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 		if (transform.position.y <= -50) {
-			GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+			GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0); // resets the velocity speed, so when the character is respawned, he won't bounce on the platform.
 			transform.position = startPos;
+            transform.rotation = startRot;
 		}
 		// float h = horizontalSpeed * Input.GetAxis("Mouse X");
 		// float v = verticalSpeed * Input.GetAxis("Mouse Y");

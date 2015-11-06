@@ -122,13 +122,13 @@ public class squareDetection : MonoBehaviour
 
 			}
 		}
-		
-		/*
+
+        /*
 		- We set an array of CubeCorners to the size of TagCheck, which is the total amount of objects
 		- We set the values of all corners to their theoretical maximum value, either 0 or the size of the input image
 		*/
-		
-		/*cubecorners = new CubeCorner[tagCheck];
+
+        /*cubecorners = new CubeCorner[tagCheck];
 
 		for (int k = 0; k < tagCheck; k++) {
 			cubecorners[k] = new CubeCorner();
@@ -143,13 +143,13 @@ public class squareDetection : MonoBehaviour
 
 		}
 		*/
-		
-		/*
+
+        /*
 		- Loop through all the pixels
 		- Loop through the cube-objects
 		*/
-		
-		/*for (int i = 1; i < texture.width; i++) {
+
+        /*for (int i = 1; i < texture.width; i++) {
 			for (int j = 1; j < texture.height; j++) {
 				for (int k = 1; k < cubecorners.Length; k++) {
 					
@@ -161,7 +161,7 @@ public class squareDetection : MonoBehaviour
 		- This will create values for all four corner of a a rectangle of any detected object
 		- Ready to be created in to a cube later on
 		*/
-		/*
+        /*
 					if (tags [i, j] == k && i < cubecorners [k].xmin) {
 						cubecorners [k].xmin = i;
 					}
@@ -178,7 +178,7 @@ public class squareDetection : MonoBehaviour
 			}
 		}*/
 
-		/*for (int i = 1; i < texture.width; i++) {
+        /*for (int i = 1; i < texture.width; i++) {
 			for (int j = 1; j < texture.height; j++) {
 				for (int k = 1; k < cubecorners.Length; k++) {
 
@@ -192,12 +192,12 @@ public class squareDetection : MonoBehaviour
 				}
 			}
 		}*/
-		
-		/*
+
+        /*
 		 *This is a test 
 		 *to check the numbers of all the cubes
 		 */
-		/*for (int k = 1; k < cubecorners.Length; k++) {
+        /*for (int k = 1; k < cubecorners.Length; k++) {
 			print ("Cube " + k + " xmin value is: " + cubecorners [k].xmin);
 			print ("Cube " + k + " xmax value is: " + cubecorners [k].xmax);
 			print ("Cube " + k + " ymin value is: " + cubecorners [k].ymin);
@@ -207,8 +207,17 @@ public class squareDetection : MonoBehaviour
 		}*/
 
 
-		for(int h = 1; h < texture.height; h++){
+        int counter = 0;
+
+
+        GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        
+        
+
+        for (int h = 1; h < texture.height; h++){
 			for(int w = 1; w < texture.width; w++){
+
+                
 
 			if(image[w,h].r != 0f){
 			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
@@ -217,15 +226,27 @@ public class squareDetection : MonoBehaviour
 					cube.transform.localScale = new Vector3 (1, 1, 1);
 					cube.AddComponent<Rigidbody> ().useGravity = false;
 					cube.GetComponent<Rigidbody> ().isKinematic = true;
-					//cube.AddComponent<combineMesh>();
+                    
+                    counter++;
+
+                    //cube.transform.parent = parent.transform;
+
+                    //cube.AddComponent<combineMesh>();
+                    
 
 
-				}
-			}
+
+                }
+            }
 		}
-			
 
-		GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
+        print(counter);
+
+        
+
+
+
+        GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
 		key.gameObject.tag = "Key";
 		key.transform.position = new Vector3 (335, 1, 200);
 		key.transform.localScale = new Vector3 (1, 1, 1);
