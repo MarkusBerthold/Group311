@@ -215,9 +215,10 @@ public class squareDetection : MonoBehaviour
 		parent.AddComponent<combineMesh>();
 		parent.AddComponent<Rigidbody>().useGravity = false;
 		parent.GetComponent<Rigidbody>().isKinematic = true;
-		//parent.transform.position = new Vector3(345,0,345);
+        //parent.AddComponent<MeshCollider>();
+        //parent.transform.position = new Vector3(345,0,345);
 
-        
+
 
         for (int h = 1; h < texture.height; h++){
 			for(int w = 1; w < texture.width; w++){
@@ -229,29 +230,30 @@ public class squareDetection : MonoBehaviour
 
 					cube.transform.position = new Vector3 (w, 0, h);
 					cube.transform.localScale = new Vector3 (1, 1, 1);
-					cube.AddComponent<Rigidbody> ().useGravity = false;
-					cube.GetComponent<Rigidbody> ().isKinematic = true;
+                    //cube.AddComponent<Rigidbody> ().useGravity = false;
+                    //cube.GetComponent<Rigidbody> ().isKinematic = true;
+                    
                     
                     counter++;
 
                     cube.transform.parent = parent.transform;
-
-                    //cube.AddComponent<combineMesh>();
-                    
-
 
 
                 }
             }
 		}
 
+        
+        foreach (Transform child in parent.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
 
-		//parent.GetComponentInChildren<Renderer>().material.mainTexture
+        //parent.AddComponent<MeshCollider>();
+
 
         print(counter);
-
         
-
 
 
         GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
