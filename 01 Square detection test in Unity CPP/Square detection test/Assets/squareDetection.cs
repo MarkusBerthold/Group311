@@ -212,6 +212,11 @@ public class squareDetection : MonoBehaviour
 
         GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
         
+		parent.AddComponent<combineMesh>();
+		parent.AddComponent<Rigidbody>().useGravity = false;
+		parent.GetComponent<Rigidbody>().isKinematic = true;
+		//parent.transform.position = new Vector3(345,0,345);
+
         
 
         for (int h = 1; h < texture.height; h++){
@@ -229,7 +234,7 @@ public class squareDetection : MonoBehaviour
                     
                     counter++;
 
-                    //cube.transform.parent = parent.transform;
+                    cube.transform.parent = parent.transform;
 
                     //cube.AddComponent<combineMesh>();
                     
@@ -239,6 +244,9 @@ public class squareDetection : MonoBehaviour
                 }
             }
 		}
+
+
+		//parent.GetComponentInChildren<Renderer>().material.mainTexture
 
         print(counter);
 
