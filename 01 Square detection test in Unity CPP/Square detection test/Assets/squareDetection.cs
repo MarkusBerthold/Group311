@@ -27,6 +27,9 @@ public class squareDetection : MonoBehaviour
 //	CubeCorner[] cubecorners;
 
 	int label;
+
+	GameObject parent;
+	bool hasBeenDone = false;
 	
 	void Start ()
 	{
@@ -239,18 +242,26 @@ public class squareDetection : MonoBehaviour
         
 
 
-        GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube); // maybe not make cube but empty game object
+        /*parent = GameObject.CreatePrimitive(PrimitiveType.Cube); // maybe not make cube but empty game object
+
+		parent.name = "Platform";
         
+
 
 		parent.AddComponent<Rigidbody>().useGravity = false;
 		parent.GetComponent<Rigidbody>().isKinematic = true;
-		parent.AddComponent<MeshCollider>();
+		//parent.AddComponent<MeshCollider>();
 		parent.AddComponent<MeshFilter>();
+
 		parent.GetComponent<BoxCollider>().enabled = false;
         //parent.AddComponent<MeshCollider>();
-        //parent.transform.position = new Vector3(xMiddle,0,yMiddle);
+        //parent.transform.position = new Vector3(xMiddle,0,yMiddle);*/
 
 
+		Container [] containers = new Container [3];
+		containers[0] = new Container();
+		containers[1] = new Container();
+		containers[2] = new Container();
 
         for (int h = 1; h < texture.height; h++){
 			for(int w = 1; w < texture.width; w++){
@@ -258,7 +269,8 @@ public class squareDetection : MonoBehaviour
                 
 
 			if(image[w,h].r != 0f){
-			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			/*GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+
 
 					cube.transform.position = new Vector3 (w, 0, h);
 					cube.transform.localScale = new Vector3 (1, 1, 1);
@@ -266,20 +278,29 @@ public class squareDetection : MonoBehaviour
                     //cube.GetComponent<Rigidbody> ().isKinematic = true;
 					//cube.AddComponent<MeshCollider>();
 
+
+
+					
+
                     
                     
                     counter++;
 
-                    cube.transform.parent = parent.transform;
+                    cube.transform.parent = parent.transform;*/
+
+					//Container[0].xValues[] = 
 
 
-                }
+				}
             }
 		}
 
+		//parent.GetComponent<MeshFilter>().mesh = parent.GetComponent<Mesh>();
 
-		parent.AddComponent<combineMesh>();
-		parent.GetComponent<MeshCollider>().sharedMesh = parent.GetComponent<MeshFilter>().mesh;
+		//parent.AddComponent<combineMesh>();
+		//parent.GetComponent<MeshCollider>().sharedMesh = parent.GetComponent<MeshFilter>().mesh;
+
+		//parent.GetComponent<MeshFilter>().mesh
         
         foreach (Transform child in parent.transform)
         {
@@ -301,10 +322,16 @@ public class squareDetection : MonoBehaviour
 
 
         GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
+		key.name = "Key";
 		key.gameObject.tag = "Key";
 		key.transform.position = new Vector3 (335, 1, 200);
 		key.transform.localScale = new Vector3 (1, 1, 1);
 		key.AddComponent<Rigidbody> ().useGravity = true;
+
+		//parent.GetComponent<MeshCollider>().enabled = false;
+
+
+
 	}
 	
 	
@@ -312,6 +339,11 @@ public class squareDetection : MonoBehaviour
 
 	void Update ()
 	{
+
+		if(hasBeenDone == false){
+		parent.AddComponent<MeshCollider>();
+			hasBeenDone = true;
+		}
 
 		
 		/*
@@ -321,6 +353,24 @@ public class squareDetection : MonoBehaviour
 			print ("tagchch" + tagCheck);
 		}*/
 	}
+}
+
+public class Container{
+	
+	GameObject parent;
+	
+	public int [] xValues, yValues;
+	
+	public Container(){
+		
+		parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		
+		parent.name = "Container";
+		
+		xValues = new int[1000];
+		yValues = new int[1000];
+	}
+	
 }
 /*
  *A CubeCorner Class, only used to store the four corners of a rectangle, to be come a cube 
