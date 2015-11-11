@@ -354,4 +354,28 @@ public class PreProcessing : Singleton<PreProcessing> {
 		}
 		return i;
 	}
+    public Color[,] colorDetection(Color[,] i)
+    {
+        for (int w = 0; w < i.GetLength(0); w++)
+        {
+            for (int h = 0; h < i.GetLength(1); h++)
+            {
+                if (i[w,h].r < 0.5f)
+                {
+
+                } else if (i[w, h].g < 0.5f)
+                {
+
+                } else if (i[w, h].b < 0.5f)
+                {
+
+                }else if (i[w, h].r < 0.5f)
+                {
+
+                }
+
+            }
+        }
+        return i;
+    }
 }
