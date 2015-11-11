@@ -354,22 +354,27 @@ public class PreProcessing : Singleton<PreProcessing> {
 		}
 		return i;
 	}
+
     public Color[,] colorDetection(Color[,] i)
     {
         for (int w = 0; w < i.GetLength(0); w++)
         {
             for (int h = 0; h < i.GetLength(1); h++)
             {
-                if (i[w,h].r < 0.5f)
+                if (i[w,h].r > 0.9f && i[w,h].g < 0.9f && i[w,h].b < 0.9f) //FOR RED
+                {
+                    GameObject laser = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    laser.transform.position = new Vector3(w, 1, h);
+                    laser.transform.localScale = new Vector3(1, 1, 1);
+                    laser.GetComponent<Renderer>().material.color = new Color(255,0,0);
+                    laser.AddComponent<Rigidbody> ().useGravity = false;
+                    laser.GetComponent<Rigidbody> ().isKinematic = true;
+
+                }
+                else if (i[w, h].r < 0.9f && i[w, h].g > 0.9f && i[w, h].b < 0.9f) // FOR GREEN
                 {
 
-                } else if (i[w, h].g < 0.5f)
-                {
-
-                } else if (i[w, h].b < 0.5f)
-                {
-
-                }else if (i[w, h].r < 0.5f)
+                } else if (i[w, h].r < 0.9f && i[w, h].g < 0.9f && i[w, h].b > 0.9f) // FOR BLUE
                 {
 
                 }

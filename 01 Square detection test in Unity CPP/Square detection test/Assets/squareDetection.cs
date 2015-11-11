@@ -41,7 +41,7 @@ public class squareDetection : MonoBehaviour
 
 		Color[,] image = PreProcessing.Instance.GetPixels2D (inputTex);
 
-
+        image = PreProcessing.Instance.colorDetection(image);
 
 		image = PreProcessing.Instance.Rgb2greyScale (image);
 
@@ -236,6 +236,8 @@ public class squareDetection : MonoBehaviour
 		//xMiddle /= counter2;
 		//yMiddle /= counter2;
 
+        
+
 
         GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube); // maybe not make cube but empty game object
         
@@ -283,6 +285,9 @@ public class squareDetection : MonoBehaviour
         {
             GameObject.Destroy(child.gameObject);
         }
+
+
+        
 
 		//transform.GetComponent<MeshFilter>().mesh = new Mesh();
 		//transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combineMesh.Instance.combine);
