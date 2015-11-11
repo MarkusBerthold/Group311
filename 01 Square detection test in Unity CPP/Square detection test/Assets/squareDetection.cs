@@ -208,15 +208,45 @@ public class squareDetection : MonoBehaviour
 
 
         int counter = 0;
+		int counter2 = 0;
+
+		int xMiddle = 0;
+		int yMiddle = 0;
+
+		/*for (int h = 1; h < texture.height; h++){
+			for(int w = 1; w < texture.width; w++){
+				
+				
+				
+				if(image[w,h].r != 0f){
+				
+					xMiddle += w;
+					yMiddle += h;
+
+					counter2++;
 
 
-        GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					//start finding pixels
+					//find middle
+					
+					
+				}
+			}
+		}*/
+		//xMiddle /= counter2;
+		//yMiddle /= counter2;
+
+
+        GameObject parent = GameObject.CreatePrimitive(PrimitiveType.Cube); // maybe not make cube but empty game object
         
-		parent.AddComponent<combineMesh>();
+
 		parent.AddComponent<Rigidbody>().useGravity = false;
 		parent.GetComponent<Rigidbody>().isKinematic = true;
+		parent.AddComponent<MeshCollider>();
+		parent.AddComponent<MeshFilter>();
+		parent.GetComponent<BoxCollider>().enabled = false;
         //parent.AddComponent<MeshCollider>();
-        //parent.transform.position = new Vector3(345,0,345);
+        //parent.transform.position = new Vector3(xMiddle,0,yMiddle);
 
 
 
@@ -232,6 +262,8 @@ public class squareDetection : MonoBehaviour
 					cube.transform.localScale = new Vector3 (1, 1, 1);
                     //cube.AddComponent<Rigidbody> ().useGravity = false;
                     //cube.GetComponent<Rigidbody> ().isKinematic = true;
+					//cube.AddComponent<MeshCollider>();
+
                     
                     
                     counter++;
@@ -243,16 +275,23 @@ public class squareDetection : MonoBehaviour
             }
 		}
 
+
+		parent.AddComponent<combineMesh>();
+		parent.GetComponent<MeshCollider>().sharedMesh = parent.GetComponent<MeshFilter>().mesh;
         
         foreach (Transform child in parent.transform)
         {
             GameObject.Destroy(child.gameObject);
         }
 
+		//transform.GetComponent<MeshFilter>().mesh = new Mesh();
+		//transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combineMesh.Instance.combine);
+		//transform.gameObject.SetActive(true);
+
         //parent.AddComponent<MeshCollider>();
 
 
-        print(counter);
+        //print(counter);
         
 
 
