@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		Cursor.visible = false;
+		//Cursor.visible = false;
 		this.tag = "Player";
 		startPos = transform.position; // sets the initial position of the character - based on how the cube is placed
         startRot = transform.rotation; // sets the initial rotation of the character - based on how the cube is placed
