@@ -188,8 +188,6 @@ public class PreProcessing : Singleton<PreProcessing> {
 				int count = 0;
 				float sum = 0;
 				
-				int [] neighborhood = new int[49];
-				
 				for (int j = -3; j <= 3; j++) {
 					for (int l = -3; l <= 3; l++) {
 
@@ -234,8 +232,7 @@ public class PreProcessing : Singleton<PreProcessing> {
 				
 				int count = 0;
 				float sum = 0;
-				
-				int [] neighborhood = new int[49];
+
 				
 				for (int j = -3; j <= 3; j++) {
 					for (int l = -3; l <= 3; l++) {
@@ -363,12 +360,14 @@ public class PreProcessing : Singleton<PreProcessing> {
             {
                 if (i[w,h].r > 0.9f && i[w,h].g < 0.9f && i[w,h].b < 0.9f) //FOR RED
                 {
-                    GameObject laser = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                   /* GameObject laser = GameObject.CreatePrimitive(PrimitiveType.Cube);
                     laser.transform.position = new Vector3(w, 1, h);
                     laser.transform.localScale = new Vector3(1, 1, 1);
                     laser.GetComponent<Renderer>().material.color = new Color(255,0,0);
                     laser.AddComponent<Rigidbody> ().useGravity = false;
-                    laser.GetComponent<Rigidbody> ().isKinematic = true;
+                    laser.GetComponent<Rigidbody> ().isKinematic = true;*/
+
+					//and tag the pixels so they dont get built in to a cube later
 
                 }
                 else if (i[w, h].r < 0.9f && i[w, h].g > 0.9f && i[w, h].b < 0.9f) // FOR GREEN

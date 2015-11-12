@@ -17,7 +17,6 @@ public class combineMesh : Singleton<combineMesh> {
 			combine[i].mesh = meshFilters[i].sharedMesh;
 			combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
 
-            //combine[i].transform = Matrix4x4.TRS(gameObject.transform.InverseTransformPoint(gameObject.transform.position), Quaternion.Inverse(gameObject.transform.rotation), Vector3.one);
         
 
         meshFilters[i].gameObject.SetActive(true);
