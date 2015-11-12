@@ -30,6 +30,8 @@ public class squareDetection : MonoBehaviour
 
 	GameObject parent;
 	bool hasBeenDone = false;
+
+	GameObject[] parents;
 	
 	void Start ()
 	{
@@ -242,37 +244,52 @@ public class squareDetection : MonoBehaviour
         
 
 
-        /*parent = GameObject.CreatePrimitive(PrimitiveType.Cube); // maybe not make cube but empty game object
+        /*parent = new GameObject(); // maybe not make cube but empty game object
 
 		parent.name = "Platform";
         
 
-
+		parent.AddComponent<MeshFilter>();
+		parent.AddComponent<MeshRenderer>();
 		parent.AddComponent<Rigidbody>().useGravity = false;
 		parent.GetComponent<Rigidbody>().isKinematic = true;
-		//parent.AddComponent<MeshCollider>();
-		parent.AddComponent<MeshFilter>();
-
-		parent.GetComponent<BoxCollider>().enabled = false;
+		parent.AddComponent<MeshCollider>();
+		parent.GetComponent<Renderer>().material.color = new Color(255,255,255);
+		//parent.GetComponent<BoxCollider>().enabled = false;
         //parent.AddComponent<MeshCollider>();
         //parent.transform.position = new Vector3(xMiddle,0,yMiddle);*/
 
 
-		Container [] containers = new Container [3];
-		containers[0] = new Container();
-		containers[1] = new Container();
-		containers[2] = new Container();
 
+
+		//int [,] pixIndex;
+		int pixIndexCounter = 0;
+		int [] pixIndexX;
+		int [] pixIndexY;
+
+
+		for (int h = 1; h < texture.height; h++){
+			for(int w = 1; w < texture.width; w++){
+				if(image[w,h].r != 0f){
+					pixIndexCounter++;
+				}
+			}
+		}
+		pixIndexX = new int [pixIndexCounter];
+		pixIndexY = new int [pixIndexCounter];
+
+		int counter3 = 0;
         for (int h = 1; h < texture.height; h++){
 			for(int w = 1; w < texture.width; w++){
 
                 
 
 			if(image[w,h].r != 0f){
-			/*GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			//GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
 
 
-					cube.transform.position = new Vector3 (w, 0, h);
+
+					/*cube.transform.position = new Vector3 (w, 0, h);
 					cube.transform.localScale = new Vector3 (1, 1, 1);
                     //cube.AddComponent<Rigidbody> ().useGravity = false;
                     //cube.GetComponent<Rigidbody> ().isKinematic = true;
@@ -288,24 +305,73 @@ public class squareDetection : MonoBehaviour
 
                     cube.transform.parent = parent.transform;*/
 
-					//Container[0].xValues[] = 
 
+					pixIndexY[counter3] = h;
+
+					pixIndexX[counter3] = w;
+
+
+						counter3++;
 
 				}
             }
 		}
+		parents = new GameObject[(pixIndexCounter/1000)+1];
+		for(int p = 0; p < parents.Length; p++){
+			parents[p] = new GameObject();
+			parents[p].AddComponent<MeshRenderer>();
+			parents[p].GetComponent<Renderer>().material.color = new Color(255,255,255);
+			parents[p].name = "Parent";
+			parents[p].AddComponent<MeshFilter>();
+			parents[p].AddComponent<MeshCollider>();
+		}
+		int parentCounter = 0;
+		int countoTo1000 = 0;
 
-		//parent.GetComponent<MeshFilter>().mesh = parent.GetComponent<Mesh>();
+		for(int h = 0; h < pixIndexY.Length; h++){
+			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+			
+			
+			
+			cube.transform.position = new Vector3 (pixIndexX[h], 0, pixIndexY[h]);
+					cube.transform.localScale = new Vector3 (1, 1, 1);
+                    //cube.AddComponent<Rigidbody> ().useGravity = false;
+                    //cube.GetComponent<Rigidbody> ().isKinematic = true;
+					//cube.AddComponent<MeshCollider>();
 
-		//parent.AddComponent<combineMesh>();
-		//parent.GetComponent<MeshCollider>().sharedMesh = parent.GetComponent<MeshFilter>().mesh;
+                    cube.transform.parent = parents[parentCounter].transform;
+
+			countoTo1000++;
+
+			if(countoTo1000 == 1000){
+			parentCounter++;
+			countoTo1000 = 0;
+
+
+			}
+
+		}
+
+
+		for(int p = 0; p < parents.Length; p++){
+			parents[p].GetComponent<MeshFilter>().mesh = parents[p].GetComponent<Mesh>();
+			
+			parents[p].AddComponent<combineMesh>();
+			parents[p].GetComponent<MeshCollider>().sharedMesh = parents[p].GetComponent<MeshFilter>().mesh;
+		}
+
+
 
 		//parent.GetComponent<MeshFilter>().mesh
+
+		for(int p = 0; p < parents.Length; p++){
+			foreach (Transform child in parents[p].transform)
+			{
+				GameObject.Destroy(child.gameObject);
+			}
+		}
         
-        foreach (Transform child in parent.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        
 
 
         
@@ -341,7 +407,9 @@ public class squareDetection : MonoBehaviour
 	{
 
 		if(hasBeenDone == false){
-		parent.AddComponent<MeshCollider>();
+			for(int p = 0; p < parents.Length; p++)
+		parents[p].AddComponent<MeshCollider>();
+
 			hasBeenDone = true;
 		}
 
@@ -363,9 +431,11 @@ public class Container{
 	
 	public Container(){
 		
-		parent = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		parent = new GameObject();
 		
 		parent.name = "Container";
+
+		parent.AddComponent<MeshRenderer>();
 		
 		xValues = new int[1000];
 		yValues = new int[1000];
