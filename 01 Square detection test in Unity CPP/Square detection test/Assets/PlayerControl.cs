@@ -28,6 +28,7 @@ public class PlayerControl : MonoBehaviour {
 
 		if (Input.GetKey(KeyCode.W))
 		{
+            
 			transform.position += transform.forward/3;
 		}
 
