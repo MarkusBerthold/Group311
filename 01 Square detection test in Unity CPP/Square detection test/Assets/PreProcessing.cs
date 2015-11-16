@@ -4,8 +4,13 @@ using System.Linq;
 
 public class PreProcessing : Singleton<PreProcessing> {
 
-	// Use this for initialization
-	void Start () {
+
+    public Vector3 startPos;
+
+    // Use this for initialization
+    void Start () {
+
+        
 	
 	}
 	
@@ -271,10 +276,12 @@ public class PreProcessing : Singleton<PreProcessing> {
 		
 		Color[,] texture2D = new Color[i.width, i.height];
 		Color[] texture1D = i.GetPixels ();
-		
-		for (int h = 0; h < i.height; h++) {
-			for (int w = 0; w < i.width; w++) {
-				texture2D [w, h] = texture1D [h * i.width + w];
+
+        for (int w = 0; w < i.width; w++)
+        {
+            for (int h = 0; h < i.height; h++)
+            {
+                texture2D [w, h] = texture1D [h * i.width + w];
 			}
 		}
 		return texture2D;
@@ -286,10 +293,12 @@ public class PreProcessing : Singleton<PreProcessing> {
 
 		int width = i.GetLength (0);
 		int height = i.GetLength (1);
-		
-		for (int h = 0; h < height; h++) {
-			for (int w = 0; w < width; w++) {
-				texture1D [h * width + w] = i [w, h]; 
+
+        for (int w = 0; w < width; w++)
+        {
+            for (int h = 0; h < height; h++)
+            {
+                texture1D [h * width + w] = i [w, h]; 
 			}
 		}
 		
@@ -321,7 +330,7 @@ public class PreProcessing : Singleton<PreProcessing> {
 		
 		i[x, y] = new Color(label/255f+0.2f,0,0);
 		
-		if (x + 1 < width && i[x + 1, y].r == 1f)
+		if (x + 1 < height && i[x + 1, y].r == 1f)
 		{
 			Grassfire(i, x+1, y, label);
 		}
@@ -329,7 +338,7 @@ public class PreProcessing : Singleton<PreProcessing> {
 		{
 			Grassfire(i, x - 1, y, label);
 		}
-		if (y + 1 < height && i[x, y + 1].r == 1f)
+		if (y + 1 < width && i[x, y + 1].r == 1f)
 		{
 			Grassfire(i, x, y + 1, label);
 		}
@@ -372,6 +381,11 @@ public class PreProcessing : Singleton<PreProcessing> {
                 }
                 else if (i[w, h].r < 0.9f && i[w, h].g > 0.9f && i[w, h].b < 0.9f) // FOR GREEN
                 {
+                    // NEEDS MORE IF CONDITIONS
+                    //SPAWN POINT
+
+                
+
 
                 } else if (i[w, h].r < 0.9f && i[w, h].g < 0.9f && i[w, h].b > 0.9f) // FOR BLUE
                 {

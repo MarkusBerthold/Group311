@@ -32,31 +32,31 @@ public class squareDetection : MonoBehaviour
 		texture = new Texture2D (inputTex.width, inputTex.height);
 
 		Color[,] image = PreProcessing.Instance.GetPixels2D (inputTex);
-
+    
        // image = PreProcessing.Instance.colorDetection(image);
-
+    
 		image = PreProcessing.Instance.Rgb2greyScale (image);
-
+    
 		image = PreProcessing.Instance.simpleBrightness (image, -30);
-
+    
 		image = PreProcessing.Instance.simpleContrast (image, 1.3f);
-
+    
 		image = PreProcessing.Instance.Rank (image, 3, 1);
-
+    
 		image = PreProcessing.Instance.Threshold (image, 0.8f);
-
+    
 		//image = PreProcessing.Instance.Dilate (image);
-
+    
 		image = PreProcessing.Instance.Invert (image);
-
+    
 		image = PreProcessing.Instance.BlobExtraction(image);
-
+    
 		//PreProcessing.Instance.printSample (image, 300,50,10);
-
+    
 		//image = PreProcessing.Instance.Dilate (image);
 		//image = PreProcessing.Instance.Dilate (image);
 		//image = PreProcessing.Instance.Dilate (image);
-
+    
 		PreProcessing.Instance.SetPixels2D (image, texture);
 
 		this.GetComponent<Renderer> ().material.mainTexture = texture;
@@ -72,8 +72,8 @@ public class squareDetection : MonoBehaviour
 		int [] pixIndexY;
 
 
-		for (int h = 1; h < texture.height; h++){
-			for(int w = 1; w < texture.width; w++){
+		for (int w = 1; w < texture.width; w++){
+			for(int h = 1; h < texture.height; h++){
 				if(image[w,h].r != 0f){
 					pixIndexCounter++;
 				}
@@ -84,10 +84,10 @@ public class squareDetection : MonoBehaviour
 		pixIndexY = new int [pixIndexCounter];
 
 		int counter3 = 0;
-        for (int h = 1; h < texture.height; h++){
-			for(int w = 1; w < texture.width; w++){
+        for (int w = 1; w < texture.width; w++){
+            for (int h = 1; h < texture.height; h++){
 
-				if(image[w,h].r != 0f){
+                if (image[w,h].r != 0f){
 					pixIndexY[counter3] = h;
 					pixIndexX[counter3] = w;
 						counter3++;
@@ -183,7 +183,7 @@ public class squareDetection : MonoBehaviour
 		if(hasBeenDone == false){
 			for(int p = 0; p < parents.Length; p++)
 		parents[p].AddComponent<MeshCollider>();
-
+    
 			hasBeenDone = true;
 		}
 	}
