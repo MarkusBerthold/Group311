@@ -43,13 +43,15 @@ public class squareDetection : MonoBehaviour
     
 		//image = PreProcessing.Instance.Rank (image, 3, 1);
     
-		image = PreProcessing.Instance.Threshold (image, 0.8f);
+		image = PreProcessing.Instance.Threshold (image, 0.4f);
     
 		//image = PreProcessing.Instance.Dilate (image);
+
+        //image = PreProcessing.Instance.Erode(image);
+
+        image = PreProcessing.Instance.Invert (image);
     
-		image = PreProcessing.Instance.Invert (image);
-    
-		image = PreProcessing.Instance.BlobExtraction(image);
+		//image = PreProcessing.Instance.BlobExtraction(image);
     
 		//PreProcessing.Instance.printSample (image, 300,50,10);
     
@@ -118,7 +120,7 @@ public class squareDetection : MonoBehaviour
 			
 			
 			cube.transform.position = new Vector3 (pixIndexX[h], 0, pixIndexY[h]);
-					cube.transform.localScale = new Vector3 (1, 100, 1);
+					cube.transform.localScale = new Vector3 (1, 50, 1);
                     //cube.AddComponent<Rigidbody> ().useGravity = false;
                     //cube.GetComponent<Rigidbody> ().isKinematic = true;
 					//cube.AddComponent<MeshCollider>();
