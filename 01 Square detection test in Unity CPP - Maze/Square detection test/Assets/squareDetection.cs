@@ -43,7 +43,7 @@ public class squareDetection : MonoBehaviour
     
 		//image = PreProcessing.Instance.Rank (image, 3, 1);
     
-		image = PreProcessing.Instance.Threshold (image, 0.4f);
+		image = PreProcessing.Instance.Threshold (image, 0.8f);
     
 		//image = PreProcessing.Instance.Dilate (image);
 

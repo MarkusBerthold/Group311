@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerControl : MonoBehaviour {
+public class PlayerControl : Singleton<PlayerControl> {
 
 
 	public float speed;
@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour {
 
         }
         moveDirection.y -= gravity * Time.deltaTime;
-        controller.Move(moveDirection * 0.05f);
+        controller.Move(moveDirection * 0.05f); // previously 0.05f was Time.deltaTime
 
 
         transform.Rotate (0,Input.GetAxis("Horizontal") * speed1/3.5f,0);
@@ -67,6 +67,7 @@ public class PlayerControl : MonoBehaviour {
 //	}
 
 	if (transform.position.y <= -50) {
+
 		GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0); // resets the velocity speed, so when the character is respawned, he won't bounce on the platform.
 		transform.position = startPos;
         transform.rotation = startRot;
@@ -82,6 +83,16 @@ public class PlayerControl : MonoBehaviour {
 			Destroy(c.gameObject);
 			print ("Key is obtained");
 		}
+        if (c.gameObject.tag == "Laser")
+        {
+            print("Hit by lightnings");
+            // STILL NEEDS TO RESET THE FORCE OF THE PLAYER WHEN HIT
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0); // resets the velocity speed, so when the character is respawned, he won't bounce on the platform.
+            transform.position = startPos;
+            transform.rotation = startRot;
+        }
 	}
+
+    
 
 }
