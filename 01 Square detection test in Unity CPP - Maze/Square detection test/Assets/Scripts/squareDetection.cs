@@ -156,21 +156,29 @@ public class squareDetection : MonoBehaviour
 				GameObject.Destroy(child.gameObject);
 			}
 		}
-        
 
-		/**
+
+        /**
 		 * This is a little cube that we call a "Key".
 		 * It can be picked up by a player object
 		 * See "OnCollision" in player script.
 		 */
 
+        
+    
+        
 
-        GameObject key = GameObject.CreatePrimitive (PrimitiveType.Cube);
+        GameObject key = (GameObject) Instantiate(Resources.Load("Battery"));
 		key.name = "Key";
 		key.gameObject.tag = "Key";
 		key.transform.position = new Vector3 (335, 1, 200);
-		key.transform.localScale = new Vector3 (1, 1, 1);
-		key.AddComponent<Rigidbody> ().useGravity = true;
+        key.transform.localScale = new Vector3(10, 10, 10);
+		key.AddComponent<Rigidbody> ().useGravity = false;
+        key.AddComponent<CapsuleCollider>();
+        key.GetComponent<CapsuleCollider>().height = 0.1f;
+        key.GetComponent<CapsuleCollider>().radius = 0.03f;
+        key.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.05f, 0);
+        
 }
 	
 	

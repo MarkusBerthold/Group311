@@ -27,9 +27,9 @@ public class PlayerControl : Singleton<PlayerControl> {
         startRot = transform.rotation; // sets the initial rotation of the character - based on how the cube is placed
     }
 
-    public float speed1 = 6.0F;
-    public float jumpSpeed = 8.0F;
-    public float gravity = 20.0F;
+    public float speed1 = 6F;
+    public float jumpSpeed = 1.0F;
+    public float gravity = 10.0F;
     private Vector3 moveDirection = Vector3.zero;
 
     // Update is called once per frame
@@ -44,7 +44,7 @@ public class PlayerControl : Singleton<PlayerControl> {
             if (Input.GetButton("Jump"))
             {
                 jumpable = false;
-                moveDirection.y = jumpSpeed;
+                moveDirection.y = jumpSpeed/1.1f;
                 anim.SetBool("isJumping", true);
             }
             else
@@ -123,7 +123,7 @@ public class PlayerControl : Singleton<PlayerControl> {
 
 	}
 
-	void OnCollisionEnter(Collision c) {
+	void OnTriggerEnter(Collider c) {
 		if (c.gameObject.tag == "Key") {
 			Destroy(c.gameObject);
 			print ("Key is obtained");
