@@ -18,9 +18,6 @@ public class PlayerControl : Singleton<PlayerControl> {
     // Use this for initialization
     void Start() {
 
-
-
-
         //Cursor.visible = false;
         this.tag = "Player";
         startPos = transform.position; // sets the initial position of the character - based on how the cube is placed
@@ -124,9 +121,9 @@ public class PlayerControl : Singleton<PlayerControl> {
 	}
 
 	void OnTriggerEnter(Collider c) {
-		if (c.gameObject.tag == "Key") {
+		if (c.gameObject.tag == "Battery") {
 			Destroy(c.gameObject);
-			print ("Key is obtained");
+			print ("Battery is obtained");
 		}
         if (c.gameObject.tag == "Laser")
         {

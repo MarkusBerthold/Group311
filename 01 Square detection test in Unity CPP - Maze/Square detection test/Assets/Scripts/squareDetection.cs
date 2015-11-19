@@ -32,9 +32,9 @@ public class squareDetection : MonoBehaviour
 		texture = new Texture2D (inputTex.width, inputTex.height);
 
 		Color[,] image = PreProcessing.Instance.GetPixels2D (inputTex);
-    
-       // image = PreProcessing.Instance.colorDetection(image);
-    
+
+        image = PreProcessing.Instance.spawnDetection(image);
+ 
 		image = PreProcessing.Instance.Rgb2greyScale (image);
     
 		image = PreProcessing.Instance.simpleBrightness (image, -30);
@@ -168,16 +168,16 @@ public class squareDetection : MonoBehaviour
     
         
 
-        GameObject key = (GameObject) Instantiate(Resources.Load("Battery"));
-		key.name = "Key";
-		key.gameObject.tag = "Key";
-		key.transform.position = new Vector3 (335, 1, 200);
-        key.transform.localScale = new Vector3(10, 10, 10);
-		key.AddComponent<Rigidbody> ().useGravity = false;
-        key.AddComponent<CapsuleCollider>();
-        key.GetComponent<CapsuleCollider>().height = 0.1f;
-        key.GetComponent<CapsuleCollider>().radius = 0.03f;
-        key.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.05f, 0);
+        GameObject battery = (GameObject) Instantiate(Resources.Load("Battery"));
+		battery.name = "Battery";
+		battery.gameObject.tag = "Battery";
+		battery.transform.position = new Vector3 (335, 1, 200);
+        battery.transform.localScale = new Vector3(10, 10, 10);
+		battery.AddComponent<Rigidbody> ().useGravity = false;
+        battery.AddComponent<CapsuleCollider>();
+        battery.GetComponent<CapsuleCollider>().height = 0.1f;
+        battery.GetComponent<CapsuleCollider>().radius = 0.03f;
+        battery.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.05f, 0);
         
 }
 	
