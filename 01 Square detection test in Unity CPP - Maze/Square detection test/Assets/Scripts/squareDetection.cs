@@ -19,15 +19,17 @@ public class squareDetection : MonoBehaviour
 	bool hasBeenDone = false;
 
 	GameObject[] parents;
-	
-	void Start ()
+
+    void Start ()
 	{
-		
-		/*
+
+        /*
 		 - We set the empty texture to the inputTex (this might create a copy by reference problem)
 		 - We set the renderer of the gameobject this script is attached to, to the texture (input texture)
 		 - We set the pix array of Colors to the texture of the texture (input texture)
 		*/
+
+        
 
 		texture = new Texture2D (inputTex.width, inputTex.height);
 
@@ -99,18 +101,36 @@ public class squareDetection : MonoBehaviour
 
 		parents = new GameObject[(pixIndexCounter/1000)+1];
 
+        
+
 		for(int p = 0; p < parents.Length; p++){
 			parents[p] = new GameObject();
 			parents[p].AddComponent<MeshRenderer>();
-			parents[p].GetComponent<Renderer>().material.color = new Color(255,255,255);
+			//parents[p].GetComponent<Renderer>().material.color = new Color(255,255,255);
 			parents[p].name = "Parent";
 			parents[p].AddComponent<MeshFilter>();
+
+            
+
+
+
             //parents[p].AddComponent<MeshCollider>();
             //parents[p].GetComponent<MeshRenderer>().receiveShadows = false;
             //parents[p].GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
             //parents[p].GetComponent<MeshRenderer>().reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            parents[p].GetComponent<Renderer>().material.color = new Color(0.5f,0.5f,0.5f,1);
-		}
+            //parents[p].GetComponent<Renderer>().material.color = new Color(0.5f,0.5f,0.5f,1);
+            //Texture2D tex = Resources.Load("wallTex") as Texture2D;
+            //parents[p].GetComponent<Renderer>().material.mainTexture = Resources.Load("wallTex") as Texture2D;
+
+            /*
+            Texture2D text = (Texture2D) Resources.Load("wallTex.png");
+            //text = Instantiate(parents[p].GetComponent<Renderer>().material.mainTexture); //clone the material 
+            parents[p].GetComponent<Renderer>().material.mainTexture = text; //set the material equal to the clone
+            */
+
+
+
+        }
 		int parentCounter = 0;
 		int countoTo1000 = 0;
 
@@ -121,11 +141,12 @@ public class squareDetection : MonoBehaviour
 			
 			cube.transform.position = new Vector3 (pixIndexX[h], 0, pixIndexY[h]);
 					cube.transform.localScale = new Vector3 (1, 50, 1);
-                    //cube.AddComponent<Rigidbody> ().useGravity = false;
-                    //cube.GetComponent<Rigidbody> ().isKinematic = true;
-					//cube.AddComponent<MeshCollider>();
+            
+            //cube.AddComponent<Rigidbody> ().useGravity = false;
+            //cube.GetComponent<Rigidbody> ().isKinematic = true;
+            //cube.AddComponent<MeshCollider>();
 
-                    cube.transform.parent = parents[parentCounter].transform;
+            cube.transform.parent = parents[parentCounter].transform;
 
 			countoTo1000++;
 
