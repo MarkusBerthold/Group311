@@ -7,7 +7,7 @@ public class PlayerControl : Singleton<PlayerControl> {
     public float speed;
     public float horizontalSpeed;
     public float verticalSpeed;
-    private bool jumpable = true;
+    //private bool jumpable = true;
     public Vector3 startPos;
     public Quaternion startRot;
 
@@ -40,7 +40,7 @@ public class PlayerControl : Singleton<PlayerControl> {
             moveDirection *= speed1;
             if (Input.GetButton("Jump"))
             {
-                jumpable = false;
+                //jumpable = false;
                 moveDirection.y = jumpSpeed/1.1f;
                 anim.SetBool("isJumping", true);
             }
@@ -104,9 +104,9 @@ public class PlayerControl : Singleton<PlayerControl> {
     //	}
     //
 
-        if (transform.position.y <= 1 && transform.position.y >= 0.95) {
-		jumpable = true;
-	}
+//       if (transform.position.y <= 1 && transform.position.y >= 0.95) {
+//		jumpable = true;
+//	}
 
 	if (transform.position.y <= -50) {
 
@@ -124,15 +124,34 @@ public class PlayerControl : Singleton<PlayerControl> {
 		if (c.gameObject.tag == "Battery") {
 			Destroy(c.gameObject);
 			print ("Battery is obtained");
-		}
+
+            Destroy(PreProcessing.Instance.getGoal());
+
+            //Creation of the goal
+            GameObject goal2 = (GameObject)Instantiate(Resources.Load("teleportGoalYesBattery"));
+            goal2.transform.position = new Vector3(PreProcessing.Instance.getTeleportMeanX(), -1.7f, PreProcessing.Instance.getTeleportMeanZ());
+            goal2.transform.localScale = new Vector3(80, 80, 80);
+            goal2.name = "teleportGoalYesBattery";
+            goal2.gameObject.tag = "Goal";
+
+        }
         if (c.gameObject.tag == "Laser")
         {
             print("Hit by lightnings");
-            // STILL NEEDS TO RESET THE FORCE OF THE PLAYER WHEN HIT
-            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0); // resets the velocity speed, so when the character is respawned, he won't bounce on the platform.
+            // STILL NEEDS TO RESET THE MOMENTUM OF THE PLAYER WHEN HIT - possibly CharacterController
+            
             transform.position = startPos;
             transform.rotation = startRot;
+            
+            
 
+        }
+
+        if (c.gameObject.tag == "Goal")
+        {
+            print("You win! - no cake");
+
+            //NEED ANIMATION, BLINK AND ROTATION
         }
         
     }

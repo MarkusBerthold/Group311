@@ -6,7 +6,9 @@ public class PreProcessing : Singleton<PreProcessing>
 {
 
 
-    
+    GameObject goal;
+    int teleportMeanX;
+    int teleportMeanZ;
 
     // Use this for initialization
     void Start()
@@ -416,7 +418,7 @@ public class PreProcessing : Singleton<PreProcessing>
         int yValues = 0;
         int totalCounter = 0;
         int meanX = 0;
-        int meanY = 0;
+        int meanZ = 0;
 
         Color[,] temp = i;
 
@@ -443,27 +445,65 @@ public class PreProcessing : Singleton<PreProcessing>
         }
      
         meanX = xValues / totalCounter;
-        meanY = yValues / totalCounter;
+        meanZ = yValues / totalCounter;
 
         //Creation of the player
         GameObject player = (GameObject)Instantiate(Resources.Load("RobotV8"));
-        player.transform.position = new Vector3(meanX, 1, meanY);
+        player.transform.position = new Vector3(meanX, 4, meanZ);
         player.transform.localScale = new Vector3(7,7,7);
+
+        //Creation of the teleportStarter
+        GameObject teleportStarter = (GameObject)Instantiate(Resources.Load("teleportStarter"));
+        teleportStarter.transform.position = new Vector3(meanX, -1.7f, meanZ);
+        teleportStarter.transform.localScale = new Vector3(80, 80, 80);
+        
 
         return i;
     }
     public Color[,] goalDetection(Color[,] i)
     {
-        
+
+        int xValues = 0;
+        int yValues = 0;
+        int totalCounter = 0;
+        //int meanX = 0;
+        //int meanZ = 0;
+        int RGDIF = 0;
+
         Color[,] temp = i;
 
         //temp = NormalizedRgb(temp);
 
+        for (int w = 0; w < i.GetLength(0); w++)
+        {
+            for (int h = 0; h < i.GetLength(1); h++)
+            {
+                RGDIF = (int) Mathf.Abs((temp[w, h].r *255) - (temp[w, h].g * 255));
+
+                if (temp[w, h].r > 0.6f && temp[w, h].g > 0.6f && temp[w, h].b < 0.3f && RGDIF < 50) // FOR YELLOW
+                {
+
+                    xValues += w;
+                    yValues += h;
+                    totalCounter++;
+
+                    i[w, h] = Color.white;
+                  //  i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+
+                }
+            }
+
+        }
+
+        teleportMeanX = xValues / totalCounter;
+        teleportMeanZ = yValues / totalCounter;
+
         
-  /*      //Creation of the teleporter
-        GameObject teleporter = (GameObject)Instantiate(Resources.Load("RobotV8"));
-        teleporter.transform.position = new Vector3(meanX, 1, meanY);
-        teleporter.transform.localScale = new Vector3(7, 7, 7); */
+
+        //Creation of the goal
+        goal = (GameObject)Instantiate(Resources.Load("teleportGoalNoBattery"));
+        goal.transform.position = new Vector3(teleportMeanX, -1.7f, teleportMeanZ);
+        goal.transform.localScale = new Vector3(80, 80, 80);
 
         return i;
     }
@@ -488,10 +528,22 @@ public class PreProcessing : Singleton<PreProcessing>
                 i[w, h].r = (i[w, h].r) / allColors;
                 i[w, h].g = (i[w, h].g) / allColors;
                 i[w, h].b = (i[w, h].b) / allColors;
-
-
             }
         }
         return i;
+    }
+
+    public GameObject getGoal()
+    {
+        return goal;
+    }
+
+    public int getTeleportMeanX(){
+        return teleportMeanX;
+    }
+
+    public int getTeleportMeanZ()
+    {
+        return teleportMeanZ;
     }
 }

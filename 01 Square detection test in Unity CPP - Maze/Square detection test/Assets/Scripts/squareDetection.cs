@@ -36,6 +36,7 @@ public class squareDetection : MonoBehaviour
 		Color[,] image = PreProcessing.Instance.GetPixels2D (inputTex);
 
         image = PreProcessing.Instance.spawnDetection(image);
+        image = PreProcessing.Instance.goalDetection(image);
  
 		image = PreProcessing.Instance.Rgb2greyScale (image);
     
@@ -104,11 +105,11 @@ public class squareDetection : MonoBehaviour
         
 
 		for(int p = 0; p < parents.Length; p++){
-			parents[p] = new GameObject();
-			parents[p].AddComponent<MeshRenderer>();
+			parents[p] = (GameObject)Instantiate(Resources.Load("walls"));
+            //parents[p].AddComponent<MeshRenderer>();
 			//parents[p].GetComponent<Renderer>().material.color = new Color(255,255,255);
 			parents[p].name = "Parent";
-			parents[p].AddComponent<MeshFilter>();
+			//parents[p].AddComponent<MeshFilter>();
 
             
 
@@ -135,11 +136,11 @@ public class squareDetection : MonoBehaviour
 		int countoTo1000 = 0;
 
 		for(int h = 0; h < pixIndexY.Length; h++){
-			GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
-			
-			
-			
-			cube.transform.position = new Vector3 (pixIndexX[h], 0, pixIndexY[h]);
+            GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+
+
+            cube.transform.position = new Vector3 (pixIndexX[h], 0, pixIndexY[h]);
 					cube.transform.localScale = new Vector3 (1, 50, 1);
             
             //cube.AddComponent<Rigidbody> ().useGravity = false;
