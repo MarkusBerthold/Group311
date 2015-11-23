@@ -18,6 +18,9 @@ public class PlayerControl : Singleton<PlayerControl> {
     // Use this for initialization
     void Start() {
 
+        //AudioSource audio = GetComponent<AudioSource>();
+        //audio.Play();
+
         //Cursor.visible = false;
         this.tag = "Player";
         startPos = transform.position; // sets the initial position of the character - based on how the cube is placed
@@ -43,6 +46,8 @@ public class PlayerControl : Singleton<PlayerControl> {
                 //jumpable = false;
                 moveDirection.y = jumpSpeed/1.1f;
                 anim.SetBool("isJumping", true);
+                GetComponent<AudioSource>().Play();
+
             }
             else
             {

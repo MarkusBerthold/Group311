@@ -448,7 +448,7 @@ public class PreProcessing : Singleton<PreProcessing>
         meanZ = yValues / totalCounter;
 
         //Creation of the player
-        GameObject player = (GameObject)Instantiate(Resources.Load("RobotV8"));
+        GameObject player = (GameObject)Instantiate(Resources.Load("RobotV9"));
         player.transform.position = new Vector3(meanX, 4, meanZ);
         player.transform.localScale = new Vector3(7,7,7);
 
