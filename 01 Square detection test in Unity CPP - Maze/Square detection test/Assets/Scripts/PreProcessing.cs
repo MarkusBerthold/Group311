@@ -544,6 +544,13 @@ public class PreProcessing : Singleton<PreProcessing>
 		int [ ] totalpixels = new int [globalLaserLabel];
 		int [ ] meanX = new int [globalLaserLabel];
 		int [ ] meanY = new int [globalLaserLabel];
+
+		for (int j = 0; j < globalLaserLabel; j++){
+
+			totalpixels[j] = 0;
+			meanX[j] = 0;
+			meanY[j] = 0;
+		}
 		
 		int [ ] xMax = new int [globalLaserLabel];
 		int [ ] yMax = new int [globalLaserLabel];
@@ -566,8 +573,9 @@ public class PreProcessing : Singleton<PreProcessing>
         {
             for (int h = 0; h < i.GetLength(1); h++)
             {
-					if (i[w, h].r == (j *10) / 255f + 0.2f && i[w, h].g == 0 && i[w, h].b == 0) {
+					if (i[w, h].r <= j*10 / 255f + 0.22f && i[w, h].r >= j*10 / 255f + 0.18f && i[w, h].g == 0f && i[w, h].b == 0f) {
 
+						print ("SOMETHING HAPPENED HERE 1");
 
 						totalpixels[Blobcounter]++;
 							
@@ -586,7 +594,7 @@ public class PreProcessing : Singleton<PreProcessing>
 						if(h < yMin[Blobcounter])
 							yMin[Blobcounter] = h;
 
-						//i[w,h] = Color.white;
+						i[w,h] = Color.white;
                 }
             }
         }
@@ -625,7 +633,7 @@ public class PreProcessing : Singleton<PreProcessing>
 
 			GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
 			laser.transform.position = new Vector3(meanX[j], 2, meanY[j]);
-			laser.transform.localScale = new Vector3(scale[j], scale[j], scale[j]);
+			laser.transform.localScale = new Vector3(scale[j]/10, scale[j]/10, scale[j]/10);
 
 		}
 
@@ -662,7 +670,7 @@ public class PreProcessing : Singleton<PreProcessing>
 					label++;
 					globalLaserLabel++;
 
-					LaserGrassfire(i, w, h, label * 10); //change number in case there is a lot of blobs
+					LaserGrassfire(i, w, h, label); //change number in case there is a lot of blobs
 
 
 				}
@@ -676,10 +684,12 @@ public class PreProcessing : Singleton<PreProcessing>
 	{
 		int width = i.GetLength(0);
 		int height = i.GetLength(1);
+
+		print ("label within grassfire "+label);
+
+		i[x, y] = new Color(label*10 / 255f + 0.2f, 0, 0);
 		
-		i[x, y] = new Color(label / 255f + 0.2f, 0, 0);
-		
-		if (x + 1 < height && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
+		if (x + 1 < width && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
 		{
 			LaserGrassfire(i, x + 1, y, label);
 		}
@@ -687,7 +697,7 @@ public class PreProcessing : Singleton<PreProcessing>
 		{
 			LaserGrassfire(i, x - 1, y, label);
 		}
-		if (y + 1 < width && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
+		if (y + 1 < height && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
 		{
 			LaserGrassfire(i, x, y + 1, label);
 		}

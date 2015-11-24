@@ -39,7 +39,7 @@ public class squareDetection : MonoBehaviour
         image = PreProcessing.Instance.goalDetection(image);
 
 		image = PreProcessing.Instance.LaserBlobExtraction(image);
-		//image = PreProcessing.Instance.laserDetection(image);
+		image = PreProcessing.Instance.laserDetection(image);
 
         image = PreProcessing.Instance.Rgb2greyScale(image);
    
