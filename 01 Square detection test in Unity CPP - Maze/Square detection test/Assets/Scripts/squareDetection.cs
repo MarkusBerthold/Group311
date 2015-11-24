@@ -38,10 +38,13 @@ public class squareDetection : MonoBehaviour
         image = PreProcessing.Instance.spawnDetection(image);
         image = PreProcessing.Instance.goalDetection(image);
 
+		image = PreProcessing.Instance.LaserBlobExtraction(image);
+		//image = PreProcessing.Instance.laserDetection(image);
+
         image = PreProcessing.Instance.Rgb2greyScale(image);
-
+   
         image = PreProcessing.Instance.simpleBrightness(image, -30);
-
+   
         image = PreProcessing.Instance.simpleContrast(image, 1.3f);
 
         //image = PreProcessing.Instance.Rank (image, 3, 1);

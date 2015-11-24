@@ -10,6 +10,8 @@ public class PreProcessing : Singleton<PreProcessing>
     int teleportMeanX;
     int teleportMeanZ;
 
+	int globalLaserLabel;
+
     // Use this for initialization
     void Start()
     {
@@ -533,18 +535,100 @@ public class PreProcessing : Singleton<PreProcessing>
         return i;
     }
 
-    public Color[,] laserDetection(Color[,] i)
-    {
+    public Color[,] laserDetection(Color[,] i){
+
+
+
+		int Blobcounter = 0;
+		
+		int [ ] totalpixels = new int [globalLaserLabel];
+		int [ ] meanX = new int [globalLaserLabel];
+		int [ ] meanY = new int [globalLaserLabel];
+		
+		int [ ] xMax = new int [globalLaserLabel];
+		int [ ] yMax = new int [globalLaserLabel];
+		int [ ] xMin = new int [globalLaserLabel];
+		int [ ] yMin = new int [globalLaserLabel];
+
+		int [] scale = new int[globalLaserLabel]; 
+
+		for (int j = 0; j < globalLaserLabel; j++){
+			
+			xMin [j] = i.GetLength(0);
+			yMin [j] = i.GetLength(1);
+		}
+
+		int [ ] xDif = new int[globalLaserLabel];
+		int [ ] yDif = new int[globalLaserLabel];
+
+	for(int j = 1; j <= globalLaserLabel; j++){
         for (int w = 0; w < i.GetLength(0); w++)
         {
             for (int h = 0; h < i.GetLength(1); h++)
             {
-                if (i[w, h].r > 0.6f && i[w, h].g < 0.3f && i[w, h].b < 0.3f) // FOR RED
-                {
+					if (i[w, h].r == (j *10) / 255f + 0.2f && i[w, h].g == 0 && i[w, h].b == 0) {
 
+
+						totalpixels[Blobcounter]++;
+							
+						meanX[Blobcounter] += w;
+						meanY[Blobcounter] += h;
+
+						if(w > xMax[Blobcounter])
+							xMax[Blobcounter] = w;
+								
+						if(h > yMax[Blobcounter])
+							yMax[Blobcounter] = h;
+										
+						if(w < xMin[Blobcounter])
+							xMin[Blobcounter] = w;
+												
+						if(h < yMin[Blobcounter])
+							yMin[Blobcounter] = h;
+
+						//i[w,h] = Color.white;
                 }
             }
         }
+			Blobcounter++;
+	}
+		for ( int j = 0; j < globalLaserLabel; j++){
+
+			meanX[j] /= totalpixels[j];
+			meanY[j] /= totalpixels[j];
+
+			xDif[j] = xMax[j] - xMin[j];
+			yDif[j] = yMax[j] - yMin[j];
+
+			if((xDif[j] * yDif[j]) < totalpixels[j] +10 && (xDif[j] * yDif[j]) > totalpixels[j] -10 && xDif[j] < yDif[j] + 10 && xDif[j] > yDif[j] - 10 ){
+				
+				scale[j] = xDif[j];
+				
+			}
+			
+			else if ((xDif[j]*yDif[j])/3 > totalpixels[j] && xDif[j] < yDif[j] + 10 && xDif[j] > yDif[j] - 10  ){
+				
+				scale[j] = (int) Mathf.Sqrt( xDif[j] * xDif[j] + yDif[j] * yDif[j]);
+				
+			}
+			
+			else if(xDif[j] > yDif[j]){
+				
+				scale[j] = xDif[j];
+				
+			}
+			else if(yDif[j] > xDif[j]){
+				
+				scale[j] = yDif[j];
+				
+			}
+
+			GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
+			laser.transform.position = new Vector3(meanX[j], 2, meanY[j]);
+			laser.transform.localScale = new Vector3(scale[j], scale[j], scale[j]);
+
+		}
+
 
 
                 return i;
@@ -563,4 +647,53 @@ public class PreProcessing : Singleton<PreProcessing>
     {
         return teleportMeanZ;
     }
+	public Color[,] LaserBlobExtraction(Color[,] i)
+	{
+		int label = 0;
+		
+		for (int w = 0; w < i.GetLength(0); w++)
+		{
+			for (int h = 0; h < i.GetLength(1); h++)
+			{
+				if (i[w, h].r > 0.6f && i[w,h].g < 0.4f  &&i[w,h].b < 0.4f )
+				{
+
+
+					label++;
+					globalLaserLabel++;
+
+					LaserGrassfire(i, w, h, label * 10); //change number in case there is a lot of blobs
+
+
+				}
+			}
+		}
+
+
+		return i;
+	}
+	public void LaserGrassfire(Color[,] i, int x, int y, int label)
+	{
+		int width = i.GetLength(0);
+		int height = i.GetLength(1);
+		
+		i[x, y] = new Color(label / 255f + 0.2f, 0, 0);
+		
+		if (x + 1 < height && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
+		{
+			LaserGrassfire(i, x + 1, y, label);
+		}
+		if (x - 1 > 0 && i[x - 1, y].r > 0.6f && i[x - 1, y].g < 0.4f  && i[x - 1, y].b < 0.4f)
+		{
+			LaserGrassfire(i, x - 1, y, label);
+		}
+		if (y + 1 < width && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
+		{
+			LaserGrassfire(i, x, y + 1, label);
+		}
+		if (y - 1 > 0 && i[x, y - 1].r  > 0.6f && i[x , y - 1].g < 0.4f  && i[x, y - 1].b < 0.4f)
+		{
+			LaserGrassfire(i, x, y - 1, label);
+		}
+	}
 }
