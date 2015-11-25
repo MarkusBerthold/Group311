@@ -439,7 +439,7 @@ public class PreProcessing : Singleton<PreProcessing>
                     totalCounter++;
 
                     i[w, h] = Color.white;
-                    i[w, h-1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+                   // i[w, h-1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
 
                 }
             }
@@ -450,8 +450,8 @@ public class PreProcessing : Singleton<PreProcessing>
         meanZ = yValues / totalCounter;
 
         //Creation of the player
-        GameObject player = (GameObject)Instantiate(Resources.Load("RobotV9"));
-        player.transform.position = new Vector3(meanX, 4, meanZ);
+        GameObject player = (GameObject)Instantiate(Resources.Load("RobotV10"));
+        player.transform.position = new Vector3(meanX, 5, meanZ);
         player.transform.localScale = new Vector3(7,7,7);
 
         //Creation of the teleportStarter
@@ -534,6 +534,60 @@ public class PreProcessing : Singleton<PreProcessing>
         }
         return i;
     }
+	public Color[,] batteryDetection(Color[,] i)
+	{
+		int xValues = 0;
+		int yValues = 0;
+		int totalCounter = 0;
+		int meanX = 0;
+		int meanZ = 0;
+		
+		Color[,] temp = i;
+		
+		//temp = NormalizedRgb(temp);
+		
+		for (int w = 0; w < i.GetLength(0); w++)
+		{
+			for (int h = 0; h < i.GetLength(1); h++)
+			{
+				
+				if (temp[w, h].r < 0.4f && temp[w, h].g < 0.4f && temp[w, h].b > 0.6f) // FOR BLUE
+				{
+					
+					xValues += w;
+					yValues += h;
+					totalCounter++;
+					
+					i[w, h] = Color.white;
+
+				}
+			}
+			
+		}
+		
+		meanX = xValues / totalCounter;
+		meanZ = yValues / totalCounter;
+
+		/**
+		 * This is a little cube that we call a "Key".
+		 * It can be picked up by a player object
+		 * See "OnCollision" in player script.
+		 */
+		
+		GameObject battery = (GameObject)Instantiate(Resources.Load("Battery"));
+		battery.name = "Battery";
+		battery.gameObject.tag = "Battery";
+		battery.transform.position = new Vector3(meanX, 1, meanZ);
+		battery.transform.localScale = new Vector3(10, 10, 10);
+		battery.AddComponent<Rigidbody>().useGravity = false;
+		battery.AddComponent<CapsuleCollider>();
+		battery.GetComponent<CapsuleCollider>().height = 0.1f;
+		battery.GetComponent<CapsuleCollider>().radius = 0.03f;
+		battery.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.05f, 0);
+		
+		
+		return i;
+	}
 
     public Color[,] laserDetection(Color[,] i){
 
@@ -595,6 +649,8 @@ public class PreProcessing : Singleton<PreProcessing>
 							yMin[Blobcounter] = h;
 
 						i[w,h] = Color.white;
+						//i[w,h-1] = Color.white;
+						//i[w,h+1] = Color.white;
                 }
             }
         }
@@ -632,8 +688,11 @@ public class PreProcessing : Singleton<PreProcessing>
 			}
 
 			GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
-			laser.transform.position = new Vector3(meanX[j], 2, meanY[j]);
-			laser.transform.localScale = new Vector3(scale[j]/10, scale[j]/10, scale[j]/10);
+			laser.transform.position = new Vector3(meanX[j], 1, meanY[j]);
+			laser.transform.localScale = new Vector3(0.1f, scale[j]/3, 0.1f);
+
+
+			//laser.transform.RotateAround(new Vector3(meanX[j], 1, meanY[j]), new Vector3(0,1,0), 20 * Time.deltaTime);
 
 		}
 
@@ -689,7 +748,7 @@ public class PreProcessing : Singleton<PreProcessing>
 
 		i[x, y] = new Color(label*10 / 255f + 0.2f, 0, 0);
 		
-		if (x + 1 < width && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
+		if (x + 1 < height && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
 		{
 			LaserGrassfire(i, x + 1, y, label);
 		}
@@ -697,7 +756,7 @@ public class PreProcessing : Singleton<PreProcessing>
 		{
 			LaserGrassfire(i, x - 1, y, label);
 		}
-		if (y + 1 < height && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
+		if (y + 1 < width && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
 		{
 			LaserGrassfire(i, x, y + 1, label);
 		}

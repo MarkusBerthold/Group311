@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEditor;
 
 public class squareDetection : MonoBehaviour
 {
@@ -14,6 +14,10 @@ public class squareDetection : MonoBehaviour
 	 */
     public Texture2D inputTex;
     private Texture2D texture;
+
+	TextureImporter importer;
+	TextureImporterSettings importerSettings;
+
     Color[,] image;
     GameObject parent;
     bool hasBeenDone = false;
@@ -29,14 +33,34 @@ public class squareDetection : MonoBehaviour
 		 - We set the pix array of Colors to the texture of the texture (input texture)
 		*/
 
+		importer = AssetImporter.GetAtPath("Assets/Resources/16.png") as TextureImporter;
+		importerSettings = new TextureImporterSettings();
+
+		importerSettings.rgbm = TextureImporterRGBMMode.Off;
+
+		importer.SetTextureSettings(importerSettings);
 
 
-        texture = new Texture2D(inputTex.width, inputTex.height);
+
+		importer.textureType = TextureImporterType.Advanced;
+
+		importer.isReadable = true;
+		importer.mipmapEnabled = false;
+		importer.textureFormat = TextureImporterFormat.RGBA32;
+		importer.filterMode = FilterMode.Point;
+
+		importer.npotScale = TextureImporterNPOTScale.None;
+
+
+
+
+		texture = new Texture2D(inputTex.width, inputTex.height, TextureFormat.RGBA32,false);
 
         Color[,] image = PreProcessing.Instance.GetPixels2D(inputTex);
 
         image = PreProcessing.Instance.spawnDetection(image);
         image = PreProcessing.Instance.goalDetection(image);
+		image = PreProcessing.Instance.batteryDetection(image);
 
 		image = PreProcessing.Instance.LaserBlobExtraction(image);
 		image = PreProcessing.Instance.laserDetection(image);
@@ -189,29 +213,6 @@ public class squareDetection : MonoBehaviour
                 GameObject.Destroy(child.gameObject);
             }
         }
-
-
-        /**
-		 * This is a little cube that we call a "Key".
-		 * It can be picked up by a player object
-		 * See "OnCollision" in player script.
-		 */
-
-
-
-
-
-        GameObject battery = (GameObject)Instantiate(Resources.Load("Battery"));
-        battery.name = "Battery";
-        battery.gameObject.tag = "Battery";
-        battery.transform.position = new Vector3(335, 1, 200);
-        battery.transform.localScale = new Vector3(10, 10, 10);
-        battery.AddComponent<Rigidbody>().useGravity = false;
-        battery.AddComponent<CapsuleCollider>();
-        battery.GetComponent<CapsuleCollider>().height = 0.1f;
-        battery.GetComponent<CapsuleCollider>().radius = 0.03f;
-        battery.GetComponent<CapsuleCollider>().center = new Vector3(0, 0.05f, 0);
-
     }
 
 

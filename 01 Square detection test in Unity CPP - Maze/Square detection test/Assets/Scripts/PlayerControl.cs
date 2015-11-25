@@ -43,9 +43,12 @@ public class PlayerControl : Singleton<PlayerControl> {
             moveDirection *= speed1;
             if (Input.GetButton("Jump"))
             {
+				anim.SetBool("isRunning", false);
+				anim.SetBool("isJumping", true);
+
                 //jumpable = false;
                 moveDirection.y = jumpSpeed/1.1f;
-                anim.SetBool("isJumping", true);
+                
                 GetComponent<AudioSource>().Play();
 
             }
@@ -76,24 +79,20 @@ public class PlayerControl : Singleton<PlayerControl> {
            else if (Input.GetKeyUp(KeyCode.Space))
            {
                //anim.SetBool("isJumping", false);
-           }
+           } */
 
 
 
-           if (Input.GetKey(KeyCode.W) && !anim.GetBool("isJumping"))
+           
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && !anim.GetBool("isJumping"))
            {
                anim.SetBool("isRunning", true);
 
            }
-           else if (Input.GetKeyDown(KeyCode.W) && !anim.GetBool("isJumping"))
-           {
-               anim.SetBool("isRunning", true);
-
-           }
-           else if (Input.GetKeyUp(KeyCode.W))
+		else if (Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
            {
                anim.SetBool("isRunning", false);
-               } */
+               }
     
     //
     //	if (Input.GetKey(KeyCode.S))
