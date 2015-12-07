@@ -659,7 +659,7 @@ public class PreProcessing : Singleton<PreProcessing>
                     totalCounter++;
 
                     i[w, h] = Color.white;
-                   // i[w, h-1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+                   
 
                 }
             }
@@ -701,7 +701,7 @@ public class PreProcessing : Singleton<PreProcessing>
             {
                 RGDIF = (int) Mathf.Abs((temp[w, h].r *255) - (temp[w, h].g * 255));
 
-				if (/*temp[w,h].r == 1f && temp[w,h].g == 1f*/ temp[w, h].r > 0.55f && temp[w, h].g > 0.55f && temp[w, h].b < 0.35f && RGDIF < 55) // FOR YELLOW
+				if ( temp[w, h].r > 0.55f && temp[w, h].g > 0.55f && temp[w, h].b < 0.35f && RGDIF < 55) // FOR YELLOW
                 {
 
                     xValues += w;
@@ -760,15 +760,14 @@ public class PreProcessing : Singleton<PreProcessing>
 		int meanZ = 0;
 		
 		Color[,] temp = i;
-		
-		//temp = NormalizedRgb(temp);
+
 		
 		for (int w = 0; w < i.GetLength(0); w++)
 		{
 			for (int h = 0; h < i.GetLength(1); h++)
 			{
 				
-				if (temp[w,h] == Color.cyan /*temp[w, h].r < 0.6f&& temp[w, h].g < 0.5f && temp[w, h].g > 0.3f && temp[w, h].b > 0.3f && temp[w, h].b < 0.65f*/) // FOR BLUE
+				if (temp[w,h] == Color.cyan ) // FOR BLUE
 				{
 					
 					xValues += w;
@@ -776,14 +775,6 @@ public class PreProcessing : Singleton<PreProcessing>
 					totalCounter++;
 					
 					i[w, h] = Color.white;
-				//	i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w - 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w + 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w -1 , h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w + 1, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w - 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-				//	i[w + 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
 
 				}
 			}
@@ -873,8 +864,7 @@ public class PreProcessing : Singleton<PreProcessing>
 							yMin[Blobcounter] = h;
 
 						i[w,h] = Color.white;
-						//i[w,h-1] = Color.white;
-						//i[w,h+1] = Color.white;
+
                 }
             }
         }
@@ -887,6 +877,8 @@ public class PreProcessing : Singleton<PreProcessing>
 
 			xDif[j] = xMax[j] - xMin[j];
 			yDif[j] = yMax[j] - yMin[j];
+
+			scale[j] = 7;
 
 			if((xDif[j] * yDif[j]) < totalpixels[j] +5 && (xDif[j] * yDif[j]) > totalpixels[j] -5 && xDif[j] < yDif[j] + 5 && xDif[j] > yDif[j] - 5 ){
 				
@@ -913,10 +905,7 @@ public class PreProcessing : Singleton<PreProcessing>
 
 			GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
 			laser.transform.position = new Vector3(meanX[j], 1, meanY[j]);
-			laser.transform.localScale = new Vector3(0.1f, scale[j], 0.1f);
-
-
-			//laser.transform.RotateAround(new Vector3(meanX[j], 1, meanY[j]), new Vector3(0,1,0), 20 * Time.deltaTime);
+			laser.transform.localScale = new Vector3(0.1f, scale[j]*0.7f, 0.1f);
 
 		}
 
@@ -946,7 +935,7 @@ public class PreProcessing : Singleton<PreProcessing>
 		{
 			for (int h = 0; h < i.GetLength(1); h++)
 			{
-				if (i[w, h].r > 0.6f && i[w,h].g < 0.4f  &&i[w,h].b < 0.4f )
+				if ( i[w,h] == Color.red )
 				{
 
 
@@ -971,22 +960,23 @@ public class PreProcessing : Singleton<PreProcessing>
 
 		i[x, y] = new Color(label*10 / 255f + 0.2f, 0, 0);
 		
-		if (x + 1 < height && i[x + 1, y].r > 0.6f && i[x + 1, y].g < 0.4f  && i[x + 1, y].b < 0.4f ) //Changed height from width
+		if (x + 1 < width && i[x + 1,y] == Color.red ) //Changed height from width
 		{
 			LaserGrassfire(i, x + 1, y, label);
 		}
-		if (x - 1 > 0 && i[x - 1, y].r > 0.6f && i[x - 1, y].g < 0.4f  && i[x - 1, y].b < 0.4f)
+		if (x - 1 > 0 && i[x - 1,y] == Color.red)
 		{
 			LaserGrassfire(i, x - 1, y, label);
 		}
-		if (y + 1 < width && i[x, y + 1].r > 0.6f && i[x , y + 1].g < 0.4f  && i[x, y + 1].b < 0.4f) //Changed width from height
+		if (y + 1 < height && i[x,y + 1] == Color.red) //Changed width from height
 		{
 			LaserGrassfire(i, x, y + 1, label);
 		}
-		if (y - 1 > 0 && i[x, y - 1].r  > 0.6f && i[x , y - 1].g < 0.4f  && i[x, y - 1].b < 0.4f)
+		if (y - 1 > 0 && i[x , y - 1] == Color.red )
 		{
 			LaserGrassfire(i, x, y - 1, label);
 		}
+
 	}
 
 	public Color[,] threshGrey(Color [,] i){

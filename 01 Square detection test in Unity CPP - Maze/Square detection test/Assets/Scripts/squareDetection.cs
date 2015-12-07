@@ -57,19 +57,11 @@ public class squareDetection : MonoBehaviour
 		texture = new Texture2D(inputTex.width, inputTex.height, TextureFormat.RGBA32,false);
 
         Color[,] image = PreProcessing.Instance.GetPixels2D(inputTex);
+	
 
-		//image = PreProcessing.Instance.NormalizedRgb(image);
 		image = PreProcessing.Instance.threshGrey(image);
 		image = PreProcessing.Instance.threshRGB(image);
 		image = PreProcessing.Instance.RGBErodeBlack(image);
-		//image = PreProcessing.Instance.RGBErodeGreen(image);
-		//image = PreProcessing.Instance.RGBErodeRed(image);
-
-	//image = PreProcessing.Instance.RGBErode2Blue(image); //does not erode properly, made this silly white/blue functionality which actually erodes but the weird pixels from before stayed
-	//image = PreProcessing.Instance.RGBErode2White(image); // Perhaps we should build a strong Dialate function that first dialates white,then black, then blue, red, greeb, yellow.
-	//image = PreProcessing.Instance.RGBErode2Blue(image);
-	//image = PreProcessing.Instance.RGBErode2White(image);
-		//image = PreProcessing.Instance.threshGrey(image);
 
         image = PreProcessing.Instance.spawnDetection(image);
 
@@ -78,34 +70,7 @@ public class squareDetection : MonoBehaviour
 		image = PreProcessing.Instance.LaserBlobExtraction(image);
 		image = PreProcessing.Instance.laserDetection(image);
 
-        image = PreProcessing.Instance.goalDetection(image);
-
-
-
-
-       // image = PreProcessing.Instance.Rgb2greyScale(image);
-   
-       // image = PreProcessing.Instance.simpleBrightness(image, -30);
-   
-       // image = PreProcessing.Instance.simpleContrast(image, 1.3f);
-
-        //image = PreProcessing.Instance.Rank (image, 3, 1);
-
-       // image = PreProcessing.Instance.Threshold(image, 0.6f);
-
-        //image = PreProcessing.Instance.Dilate (image);
-
-        //image = PreProcessing.Instance.GreyScaleErode(image);
-
-       // image = PreProcessing.Instance.Invert(image);
-
-        //image = PreProcessing.Instance.BlobExtraction(image);
-
-        //PreProcessing.Instance.printSample (image, 300,50,10);
-
-        //image = PreProcessing.Instance.Dilate (image);
-        //image = PreProcessing.Instance.Dilate (image);
-        //image = PreProcessing.Instance.Dilate (image);
+		image = PreProcessing.Instance.goalDetection(image);
 
         PreProcessing.Instance.SetPixels2D(image, texture);
 
@@ -158,32 +123,9 @@ public class squareDetection : MonoBehaviour
         for (int p = 0; p < parents.Length; p++)
         {
             parents[p] = (GameObject)Instantiate(Resources.Load("walls"));
-            //parents[p].AddComponent<MeshRenderer>();
-            //parents[p].GetComponent<Renderer>().material.color = new Color(255,255,255);
+
             parents[p].name = "Parent";
-            //parents[p].AddComponent<MeshFilter>();
-
-
-
-
-
-            //parents[p].AddComponent<MeshCollider>();
-            //parents[p].GetComponent<MeshRenderer>().receiveShadows = false;
-            //parents[p].GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            //parents[p].GetComponent<MeshRenderer>().reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            //parents[p].GetComponent<Renderer>().material.color = new Color(0.5f,0.5f,0.5f,1);
-            //Texture2D tex = Resources.Load("wallTex") as Texture2D;
-            //parents[p].GetComponent<Renderer>().material.mainTexture = Resources.Load("wallTex") as Texture2D;
-
-            /*
-            Texture2D text = (Texture2D) Resources.Load("wallTex.png");
-            //text = Instantiate(parents[p].GetComponent<Renderer>().material.mainTexture); //clone the material 
-            parents[p].GetComponent<Renderer>().material.mainTexture = text; //set the material equal to the clone
-            */
-
-
-
-        }
+  }
         int parentCounter = 0;
         int countoTo1000 = 0;
 
@@ -192,10 +134,6 @@ public class squareDetection : MonoBehaviour
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = new Vector3(pixIndexX[h], 12.4f, pixIndexY[h]);
             cube.transform.localScale = new Vector3(1, 25, 1);
-
-            //cube.AddComponent<Rigidbody> ().useGravity = false;
-            //cube.GetComponent<Rigidbody> ().isKinematic = true;
-            //cube.AddComponent<MeshCollider>();
 
             cube.transform.parent = parents[parentCounter].transform;
 
@@ -217,12 +155,9 @@ public class squareDetection : MonoBehaviour
             parents[p].GetComponent<MeshFilter>().mesh = parents[p].GetComponent<Mesh>();
 
             parents[p].AddComponent<combineMesh>();
-            //parents[p].GetComponent<MeshCollider>().sharedMesh = parents[p].GetComponent<MeshFilter>().mesh;
         }
 
-
-
-        //parent.GetComponent<MeshFilter>().mesh
+	
 
         for (int p = 0; p < parents.Length; p++)
         {
