@@ -58,28 +58,41 @@ public class squareDetection : MonoBehaviour
 
         Color[,] image = PreProcessing.Instance.GetPixels2D(inputTex);
 
+		//image = PreProcessing.Instance.NormalizedRgb(image);
+		image = PreProcessing.Instance.threshGrey(image);
+		image = PreProcessing.Instance.threshRGB(image);
+		image = PreProcessing.Instance.RGBErodeBlack(image);
+		//image = PreProcessing.Instance.RGBErodeGreen(image);
+		//image = PreProcessing.Instance.RGBErodeRed(image);
+
+	//image = PreProcessing.Instance.RGBErode2Blue(image); //does not erode properly, made this silly white/blue functionality which actually erodes but the weird pixels from before stayed
+	//image = PreProcessing.Instance.RGBErode2White(image); // Perhaps we should build a strong Dialate function that first dialates white,then black, then blue, red, greeb, yellow.
+	//image = PreProcessing.Instance.RGBErode2Blue(image);
+	//image = PreProcessing.Instance.RGBErode2White(image);
+		//image = PreProcessing.Instance.threshGrey(image);
+
         image = PreProcessing.Instance.spawnDetection(image);
         image = PreProcessing.Instance.goalDetection(image);
-		image = PreProcessing.Instance.batteryDetection(image);
+		//image = PreProcessing.Instance.batteryDetection(image);
 
-		image = PreProcessing.Instance.LaserBlobExtraction(image);
-		image = PreProcessing.Instance.laserDetection(image);
+		//image = PreProcessing.Instance.LaserBlobExtraction(image);
+		//image = PreProcessing.Instance.laserDetection(image);
 
-        image = PreProcessing.Instance.Rgb2greyScale(image);
+       // image = PreProcessing.Instance.Rgb2greyScale(image);
    
-        image = PreProcessing.Instance.simpleBrightness(image, -30);
+       // image = PreProcessing.Instance.simpleBrightness(image, -30);
    
-        image = PreProcessing.Instance.simpleContrast(image, 1.3f);
+       // image = PreProcessing.Instance.simpleContrast(image, 1.3f);
 
         //image = PreProcessing.Instance.Rank (image, 3, 1);
 
-        image = PreProcessing.Instance.Threshold(image, 0.8f);
+       // image = PreProcessing.Instance.Threshold(image, 0.6f);
 
         //image = PreProcessing.Instance.Dilate (image);
 
-        //image = PreProcessing.Instance.Erode(image);
+        //image = PreProcessing.Instance.GreyScaleErode(image);
 
-        image = PreProcessing.Instance.Invert(image);
+       // image = PreProcessing.Instance.Invert(image);
 
         //image = PreProcessing.Instance.BlobExtraction(image);
 
@@ -169,7 +182,7 @@ public class squareDetection : MonoBehaviour
         int parentCounter = 0;
         int countoTo1000 = 0;
 
-        for (int h = 0; h < pixIndexY.Length; h++)
+       /* for (int h = 0; h < pixIndexY.Length; h++)
         {
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = new Vector3(pixIndexX[h], 12.4f, pixIndexY[h]);
@@ -191,7 +204,7 @@ public class squareDetection : MonoBehaviour
 
             }
 
-        }
+        }*/
 
 
         for (int p = 0; p < parents.Length; p++)

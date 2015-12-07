@@ -216,24 +216,220 @@ public class PreProcessing : Singleton<PreProcessing>
 
 
     }
+	public Color[,] RGBErode2White(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		Color[,] tmp2 = tmp;
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
+						
+						if(tmp[w + j, h + l] == Color.blue){
+							count++;
+						}
+						
+					}
+				}
+				
+				if (count >= 4)
+				{
+					
+					tmp2[w,h] = Color.white;
+					i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w -1 , h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					
+				}
+			}
+		}
+		
+		i = tmp2;
+		
+		return i;
+	}
+	public Color[,] RGBErodeBlack(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		Color[,] tmp2 = tmp;
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
+						
+						if(tmp[w,h] != Color.black && tmp[w + j, h + l] == Color.black){
+							tmp[w,h] = Color.white;
+						}
+						if(tmp[w,h] != Color.green && tmp[w + j, h + l] == Color.green){
+							tmp[w,h] = Color.white;
+						}
+						if(tmp[w,h] != Color.red && tmp[w + j, h + l] == Color.red){
+							tmp[w,h] = Color.white;
+						}
+					}
+				}
+			}
+		}
+		
+		i = tmp2;
+		
+		return i;
+	}
+	public Color[,] RGBErodeRed(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		Color[,] tmp2 = tmp;
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
 
-    public Color[,] Erode(Color[,] i)
-    {
+						if(tmp[w,h] != Color.red && tmp[w + j, h + l] == Color.red){
+							tmp[w,h] = Color.white;
+						}
+						
+					}
+				}
+			}
+		}
+		
+		i = tmp2;
+		
+		return i;
+	}
+	public Color[,] RGBErodeGreen(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		Color[,] tmp2 = tmp;
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
 
-        Color[,] tmp = i;
+						if(tmp[w,h] != Color.green && tmp[w + j, h + l] == Color.green){
+							tmp[w,h] = Color.white;
+						}
+						
+					}
+				}
+			}
+		}
+		
+		i = tmp2;
+		
+		return i;
+	}
 
-        Color[,] result = new Color[i.GetLength(0), i.GetLength(1)];
+	public Color[,] RGBErode2Blue(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		Color[,] tmp2 = tmp;
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
+						
+						if(tmp[w + j, h + l] == Color.white){
+							count++;
+						}
+						
+					}
+				}
 
+				if (count >= 4)
+				{
 
-        for (int w = 3; w < i.GetLength(0) - 3; w++)
-        {
-            for (int h = 3; h < i.GetLength(1) - 3; h++)
-            {
-
-                int count = 0;
-                float sum = 0;
-
-                for (int j = -3; j <= 3; j++)
+					tmp2[w,h] = Color.blue;
+					i[w, h - 1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w, h + 1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w -1 , h + 1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1, h + 1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h -1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h -1] = Color.blue; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					
+				}
+			}
+		}
+		
+		i = tmp2;
+		
+		return i;
+	}
+	
+	public Color[,] GreyScaleErode(Color[,] i)
+	{
+		
+		Color[,] tmp = i;
+		
+		Color[,] result = new Color[i.GetLength(0), i.GetLength(1)];
+		
+		
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				float sum = 0;
+				
+				for (int j = -3; j <= 3; j++)
                 {
                     for (int l = -3; l <= 3; l++)
                     {
@@ -431,7 +627,7 @@ public class PreProcessing : Singleton<PreProcessing>
             for (int h = 0; h < i.GetLength(1); h++)
             {
 
-                if (temp[w, h].r < 0.4f && temp[w, h].g > 0.6f && temp[w, h].b < 0.4f) // FOR GREEN
+                if (temp[w,h] == Color.green) // FOR GREEN
                 {
                                       
                     xValues += w;
@@ -474,7 +670,6 @@ public class PreProcessing : Singleton<PreProcessing>
 
         Color[,] temp = i;
 
-        //temp = NormalizedRgb(temp);
 
         for (int w = 0; w < i.GetLength(0); w++)
         {
@@ -482,7 +677,7 @@ public class PreProcessing : Singleton<PreProcessing>
             {
                 RGDIF = (int) Mathf.Abs((temp[w, h].r *255) - (temp[w, h].g * 255));
 
-                if (temp[w, h].r > 0.6f && temp[w, h].g > 0.6f && temp[w, h].b < 0.3f && RGDIF < 50) // FOR YELLOW
+                if (/*temp[w,h] == Color.yellow*/  temp[w, h].r > 0.55f && temp[w, h].g > 0.55f && temp[w, h].b < 0.35f && RGDIF < 55) // FOR YELLOW
                 {
 
                     xValues += w;
@@ -490,9 +685,7 @@ public class PreProcessing : Singleton<PreProcessing>
                     totalCounter++;
 
                     i[w, h] = Color.white;
-                  //  i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-
-                }
+				}
             }
 
         }
@@ -551,7 +744,7 @@ public class PreProcessing : Singleton<PreProcessing>
 			for (int h = 0; h < i.GetLength(1); h++)
 			{
 				
-				if (temp[w, h].r < 0.4f && temp[w, h].g < 0.4f && temp[w, h].b > 0.6f) // FOR BLUE
+				if (temp[w, h].r < 0.6f&& temp[w, h].g < 0.5f && temp[w, h].g > 0.3f && temp[w, h].b > 0.3f && temp[w, h].b < 0.65f) // FOR BLUE
 				{
 					
 					xValues += w;
@@ -559,14 +752,22 @@ public class PreProcessing : Singleton<PreProcessing>
 					totalCounter++;
 					
 					i[w, h] = Color.white;
+					i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w -1 , h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w - 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+					i[w + 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
 
 				}
 			}
 			
 		}
 		
-		meanX = xValues / totalCounter;
-		meanZ = yValues / totalCounter;
+		meanX = xValues / (totalCounter);
+		meanZ = yValues / (totalCounter);
 
 		/**
 		 * This is a little cube that we call a "Key".
@@ -764,5 +965,49 @@ public class PreProcessing : Singleton<PreProcessing>
 		{
 			LaserGrassfire(i, x, y - 1, label);
 		}
+	}
+
+	public Color[,] threshGrey(Color [,] i){
+
+		for(int w = 0; w < i.GetLength(0); w++){
+			for(int h = 0; h <i.GetLength(1); h++){
+			
+				if(i[w,h].r < (i[w,h].g + 25/255f) && i[w,h].r > (i[w,h].g - 25/255f) && i[w,h].g < (i[w,h].b + 25/255f) && i[w,h].g > (i[w,h].b - 25/255f) && 
+				                                                                                                                        i[w,h].b < (i[w,h].r + 25/255f) && i[w,h].b > (i[w,h].r - 25/255f) && i[w,h].r > 65/255f){
+					i[w,h] = Color.white;
+				}
+
+			}
+		}
+
+				return i;
+	}
+	public Color[,] threshRGB(Color [,] i){
+		
+		for(int w = 0; w < i.GetLength(0); w++){
+			for(int h = 0; h <i.GetLength(1); h++){
+
+				if(i[w,h].r >= 0.4f){
+					i[w,h].r = 1f;
+				}else if(i[w,h].r <= 0.4f){
+					i[w,h].r = 0f;
+				}
+				if(i[w,h].g >= 0.4f){
+					i[w,h].g = 1f;
+				}else if(i[w,h].g <= 0.4f){
+					i[w,h].g = 0f;
+				}
+				if(i[w,h].b >= 0.4f){
+					i[w,h].b = 1f;
+				}else if(i[w,h].b <= 0.4f){
+					i[w,h].b = 0f;
+				}else{
+					i[w,h] = Color.white;
+				}
+				
+			}
+		}
+		
+		return i;
 	}
 }
