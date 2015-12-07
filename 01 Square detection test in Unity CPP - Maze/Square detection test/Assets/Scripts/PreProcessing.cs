@@ -281,16 +281,40 @@ public class PreProcessing : Singleton<PreProcessing>
 				{
 					for (int l = -3; l <= 3; l++)
 					{
+						if(tmp[w,h] == Color.red && tmp[w + j, h + l] == Color.black){
+							tmp[w,h] = Color.white;
+						}
+
 						
-						if(tmp[w,h] != Color.black && tmp[w + j, h + l] == Color.black){
-							tmp[w,h] = Color.white;
-						}
-						if(tmp[w,h] != Color.green && tmp[w + j, h + l] == Color.green){
-							tmp[w,h] = Color.white;
-						}
-						if(tmp[w,h] != Color.red && tmp[w + j, h + l] == Color.red){
-							tmp[w,h] = Color.white;
-						}
+					}
+				}
+			}
+		}
+		for (int w = 3; w < i.GetLength(0) - 3; w++)
+		{
+			for (int h = 3; h < i.GetLength(1) - 3; h++)
+			{
+				
+				int count = 0;
+				
+				for (int j = -3; j <= 3; j++)
+				{
+					for (int l = -3; l <= 3; l++)
+					{
+							if(tmp[w,h] != Color.black && tmp[w + j, h + l] == Color.black){
+								tmp[w,h] = Color.white;
+							}
+							if(tmp[w,h] != Color.green && tmp[w + j, h + l] == Color.green){
+								tmp[w,h] = Color.white;
+							}
+							if(tmp[w,h] != Color.red && tmp[w + j, h + l] == Color.red){
+								tmp[w,h] = Color.white;
+							}
+							if(tmp[w,h] != Color.cyan && tmp[w + j, h + l] == Color.cyan){
+								tmp[w,h] = Color.white;
+							}
+						
+						
 					}
 				}
 			}
@@ -677,7 +701,7 @@ public class PreProcessing : Singleton<PreProcessing>
             {
                 RGDIF = (int) Mathf.Abs((temp[w, h].r *255) - (temp[w, h].g * 255));
 
-                if (/*temp[w,h] == Color.yellow*/  temp[w, h].r > 0.55f && temp[w, h].g > 0.55f && temp[w, h].b < 0.35f && RGDIF < 55) // FOR YELLOW
+				if (/*temp[w,h].r == 1f && temp[w,h].g == 1f*/ temp[w, h].r > 0.55f && temp[w, h].g > 0.55f && temp[w, h].b < 0.35f && RGDIF < 55) // FOR YELLOW
                 {
 
                     xValues += w;
@@ -744,7 +768,7 @@ public class PreProcessing : Singleton<PreProcessing>
 			for (int h = 0; h < i.GetLength(1); h++)
 			{
 				
-				if (temp[w, h].r < 0.6f&& temp[w, h].g < 0.5f && temp[w, h].g > 0.3f && temp[w, h].b > 0.3f && temp[w, h].b < 0.65f) // FOR BLUE
+				if (temp[w,h] == Color.cyan /*temp[w, h].r < 0.6f&& temp[w, h].g < 0.5f && temp[w, h].g > 0.3f && temp[w, h].b > 0.3f && temp[w, h].b < 0.65f*/) // FOR BLUE
 				{
 					
 					xValues += w;
@@ -752,14 +776,14 @@ public class PreProcessing : Singleton<PreProcessing>
 					totalCounter++;
 					
 					i[w, h] = Color.white;
-					i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w - 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w + 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w -1 , h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w + 1, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w - 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
-					i[w + 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w, h - 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w - 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w + 1 , h] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w -1 , h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w + 1, h + 1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w - 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
+				//	i[w + 1 , h -1] = Color.white; // "I totally have a clue why this works" - Nils Emil Åberg Karlsson
 
 				}
 			}
@@ -865,7 +889,7 @@ public class PreProcessing : Singleton<PreProcessing>
 			xDif[j] = xMax[j] - xMin[j];
 			yDif[j] = yMax[j] - yMin[j];
 
-			if((xDif[j] * yDif[j]) < totalpixels[j] +10 && (xDif[j] * yDif[j]) > totalpixels[j] -10 && xDif[j] < yDif[j] + 10 && xDif[j] > yDif[j] - 10 ){
+			if((xDif[j] * yDif[j]) < totalpixels[j] +5 && (xDif[j] * yDif[j]) > totalpixels[j] -5 && xDif[j] < yDif[j] + 5 && xDif[j] > yDif[j] - 5 ){
 				
 				scale[j] = xDif[j];
 				
@@ -890,7 +914,7 @@ public class PreProcessing : Singleton<PreProcessing>
 
 			GameObject laser = (GameObject)Instantiate(Resources.Load("Laser"));
 			laser.transform.position = new Vector3(meanX[j], 1, meanY[j]);
-			laser.transform.localScale = new Vector3(0.1f, scale[j]/3, 0.1f);
+			laser.transform.localScale = new Vector3(0.1f, scale[j], 0.1f);
 
 
 			//laser.transform.RotateAround(new Vector3(meanX[j], 1, meanY[j]), new Vector3(0,1,0), 20 * Time.deltaTime);

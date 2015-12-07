@@ -72,11 +72,16 @@ public class squareDetection : MonoBehaviour
 		//image = PreProcessing.Instance.threshGrey(image);
 
         image = PreProcessing.Instance.spawnDetection(image);
-        image = PreProcessing.Instance.goalDetection(image);
-		//image = PreProcessing.Instance.batteryDetection(image);
+
+		image = PreProcessing.Instance.batteryDetection(image);
 
 		//image = PreProcessing.Instance.LaserBlobExtraction(image);
 		//image = PreProcessing.Instance.laserDetection(image);
+
+        image = PreProcessing.Instance.goalDetection(image);
+
+
+
 
        // image = PreProcessing.Instance.Rgb2greyScale(image);
    
@@ -121,7 +126,7 @@ public class squareDetection : MonoBehaviour
         {
             for (int h = 1; h < texture.height; h++)
             {
-                if (image[w, h].r != 0f)
+                if (image[w, h].r == 0f)
                 {
                     pixIndexCounter++;
                 }
@@ -137,7 +142,7 @@ public class squareDetection : MonoBehaviour
             for (int h = 1; h < texture.height; h++)
             {
 
-                if (image[w, h].r != 0f)
+                if (image[w, h].r == 0f)
                 {
                     pixIndexY[counter3] = h;
                     pixIndexX[counter3] = w;
@@ -182,7 +187,7 @@ public class squareDetection : MonoBehaviour
         int parentCounter = 0;
         int countoTo1000 = 0;
 
-       /* for (int h = 0; h < pixIndexY.Length; h++)
+        for (int h = 0; h < pixIndexY.Length; h++)
         {
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.position = new Vector3(pixIndexX[h], 12.4f, pixIndexY[h]);
@@ -204,7 +209,7 @@ public class squareDetection : MonoBehaviour
 
             }
 
-        }*/
+        }
 
 
         for (int p = 0; p < parents.Length; p++)
