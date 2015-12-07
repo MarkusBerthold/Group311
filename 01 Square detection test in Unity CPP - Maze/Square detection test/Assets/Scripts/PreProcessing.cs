@@ -854,7 +854,6 @@ public class PreProcessing : Singleton<PreProcessing>
             {
 					if (i[w, h].r <= j*10 / 255f + 0.22f && i[w, h].r >= j*10 / 255f + 0.18f && i[w, h].g == 0f && i[w, h].b == 0f) {
 
-						print ("SOMETHING HAPPENED HERE 1");
 
 						totalpixels[Blobcounter]++;
 							
@@ -969,7 +968,6 @@ public class PreProcessing : Singleton<PreProcessing>
 		int width = i.GetLength(0);
 		int height = i.GetLength(1);
 
-		print ("label within grassfire "+label);
 
 		i[x, y] = new Color(label*10 / 255f + 0.2f, 0, 0);
 		

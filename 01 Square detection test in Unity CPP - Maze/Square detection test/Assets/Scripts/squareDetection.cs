@@ -75,8 +75,8 @@ public class squareDetection : MonoBehaviour
 
 		image = PreProcessing.Instance.batteryDetection(image);
 
-		//image = PreProcessing.Instance.LaserBlobExtraction(image);
-		//image = PreProcessing.Instance.laserDetection(image);
+		image = PreProcessing.Instance.LaserBlobExtraction(image);
+		image = PreProcessing.Instance.laserDetection(image);
 
         image = PreProcessing.Instance.goalDetection(image);
 
