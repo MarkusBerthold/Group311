@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerControl : Singleton<PlayerControl> {
 
-
+	public string WinString;
     public float speed;
     public float horizontalSpeed;
     public float verticalSpeed;
@@ -63,7 +63,7 @@ public class PlayerControl : Singleton<PlayerControl> {
         controller.Move(moveDirection * 0.05f); // previously 0.05f was Time.deltaTime
 
 
-        transform.Rotate(0, Input.GetAxis("Horizontal") * speed1 / 3.5f, 0);
+        transform.Rotate(0, Input.GetAxis("Horizontal") * speed1 / 2.5f, 0);
 
 
 
@@ -155,10 +155,24 @@ public class PlayerControl : Singleton<PlayerControl> {
         {
             print("You win! - no cake");
 
+			WinString = "You Win!";
             //NEED ANIMATION, BLINK AND ROTATION
         }
         
     }
+
+	void OnGUI(){
+		if( WinString != null){
+
+			GUI.color = Color.yellow;
+			//GUI.skin.GetStyle("Label").alignment = TextAnchor.UpperCenter;
+			GUI.skin.label.fontSize = 80;
+			GUI.Label(new Rect(Screen.width/2-Screen.width/8, Screen.height/2-Screen.height/8, Screen.width/4,Screen.height/4), WinString);
+
+
+
+		}
+	}
 
     
 
