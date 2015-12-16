@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using System.Linq;
 
 public class PreProcessing : Singleton<PreProcessing> {
@@ -186,11 +186,8 @@ public class PreProcessing : Singleton<PreProcessing> {
         Color[,] tmp = i;
         Color[,] tmp2 = tmp;
 
-
         for (int w = 3; w < i.GetLength(0) - 3; w++) {
             for (int h = 3; h < i.GetLength(1) - 3; h++) {
-
-                int count = 0;
 
                 for (int j = -3; j <= 3; j++) {
                     for (int l = -3; l <= 3; l++) {
@@ -201,10 +198,9 @@ public class PreProcessing : Singleton<PreProcessing> {
                 }
             }
         }
+
         for (int w = 3; w < i.GetLength(0) - 3; w++) {
             for (int h = 3; h < i.GetLength(1) - 3; h++) {
-
-                int count = 0;
 
                 for (int j = -3; j <= 3; j++) {
                     for (int l = -3; l <= 3; l++) {
@@ -220,13 +216,10 @@ public class PreProcessing : Singleton<PreProcessing> {
                         if (tmp[w, h] != Color.cyan && tmp[w + j, h + l] == Color.cyan) {
                             tmp[w, h] = Color.white;
                         }
-
-
                     }
                 }
             }
         }
-
         i = tmp2;
 
         return i;
@@ -602,7 +595,6 @@ public class PreProcessing : Singleton<PreProcessing> {
 
                 }
             }
-
         }
 
         meanX = xValues / (totalCounter);
@@ -753,27 +745,26 @@ public class PreProcessing : Singleton<PreProcessing> {
     }
 
     public void LaserGrassfire(Color[,] i, int x, int y, int label) {
+
         int width = i.GetLength(0);
         int height = i.GetLength(1);
 
-
         i[x, y] = new Color(label * 10 / 255f + 0.2f, 0, 0);
 
-        if (x + 1 < width && i[x + 1, y] == Color.red) //Changed height from width
+        if (x + 1 < width && i[x + 1, y] == Color.red)                                                                      //Changed height from width
         {
             LaserGrassfire(i, x + 1, y, label);
         }
         if (x - 1 > 0 && i[x - 1, y] == Color.red) {
             LaserGrassfire(i, x - 1, y, label);
         }
-        if (y + 1 < height && i[x, y + 1] == Color.red) //Changed width from height
+        if (y + 1 < height && i[x, y + 1] == Color.red)                                                                     //Changed width from height
         {
             LaserGrassfire(i, x, y + 1, label);
         }
         if (y - 1 > 0 && i[x, y - 1] == Color.red) {
             LaserGrassfire(i, x, y - 1, label);
         }
-
     }
 
     public Color[,] threshGrey(Color[,] i) {
@@ -781,11 +772,12 @@ public class PreProcessing : Singleton<PreProcessing> {
         for (int w = 0; w < i.GetLength(0); w++) {
             for (int h = 0; h < i.GetLength(1); h++) {
 
-                if (i[w, h].r < (i[w, h].g + 25 / 255f) && i[w, h].r > (i[w, h].g - 25 / 255f) && i[w, h].g < (i[w, h].b + 25 / 255f) && i[w, h].g > (i[w, h].b - 25 / 255f) &&
-                                                                                                                                        i[w, h].b < (i[w, h].r + 25 / 255f) && i[w, h].b > (i[w, h].r - 25 / 255f) && i[w, h].r > 65 / 255f) {
+                if (i[w, h].r < (i[w, h].g + 25 / 255f) && i[w, h].r > (i[w, h].g - 25 / 255f) && 
+                    i[w, h].g < (i[w, h].b + 25 / 255f) && i[w, h].g > (i[w, h].b - 25 / 255f) &&
+                    i[w, h].b < (i[w, h].r + 25 / 255f) && i[w, h].b > (i[w, h].r - 25 / 255f) && 
+                    i[w, h].r > 65 / 255f) {
                     i[w, h] = Color.white;
                 }
-
             }
         }
 
